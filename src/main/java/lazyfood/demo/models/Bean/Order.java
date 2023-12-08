@@ -1,34 +1,43 @@
 package lazyfood.demo.models.Bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Order {
     private String OrderId;
     private String CustomerId;
-    private String ProductId;
-    private int Quantity;
+    private ArrayList<ProductInOrder> Products;
     private Date Time;
     private String PhoneNumber;
     private String Address;
     private boolean IsDelivered;
 
-    // public Order(String orderId, String customerId, String productId, int
-    // quantity, Date time, String phoneNumber, String address) {
-    // OrderId = orderId;
-    // CustomerId = customerId;
-    // ProductId = productId;
-    // Quantity = quantity;
-    // Quantity = quantity;
-    // Time = time;
-    // PhoneNumber = phoneNumber;
-    // Address = address;
-    // }
-
-    public Order(String orderId, String customerId, String productId, int quantity, Date time) {
+    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time, String phoneNumber,
+            String address, boolean isDelivered) {
         OrderId = orderId;
         CustomerId = customerId;
-        ProductId = productId;
-        Quantity = quantity;
+        Products = products;
+        Time = time;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        IsDelivered = isDelivered;
+    }
+
+    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time, String phoneNumber,
+            String address) {
+        OrderId = orderId;
+        CustomerId = customerId;
+        Products = products;
+        Time = time;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        IsDelivered = false;
+    }
+
+    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time) {
+        OrderId = orderId;
+        CustomerId = customerId;
+        Products = products;
         Time = time;
         IsDelivered = false;
     }
@@ -49,20 +58,12 @@ public class Order {
     // CustomerId = customerId;
     // }
 
-    public String getProductId() {
-        return ProductId;
+    public ArrayList<ProductInOrder> getProducts() {
+        return Products;
     }
 
-    // public void setProductId(String productId) {
-    // ProductId = productId;
-    // }
-
-    public int getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
+    public void setProducts(ArrayList<ProductInOrder> products) {
+        Products = products;
     }
 
     public Date getTime() {

@@ -2,6 +2,7 @@ package lazyfood.demo.models.BO;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import lazyfood.demo.models.Bean.Product;
@@ -22,8 +23,11 @@ public class ProductBO {
         return productDAO.getProductById(id);
     }
 
-    public void addProduct(Product product) throws SQLException,  IOException{
-        productDAO.addProduct(product);
+    public void addProduct(Product product) throws SQLException, IOException {
+        if (productDAO.getProductById(product.getProductId()) == null)
+            productDAO.addProduct(product);
+        else
+            throw new SQLIntegrityConstraintViolationException("Primary key is duplicated.");
     }
 
     public void updateProduct(Product product) throws SQLException, IOException {
@@ -31,6 +35,9 @@ public class ProductBO {
     }
 
     public void deleteProduct(String id) throws SQLException {
-        productDAO.deleteProduct(id);
+        if (productDAO.getProductById(id) != null)
+            productDAO.deleteProduct(id);
+        else
+            throw new SQLException("Product not found");
     }
 }

@@ -152,73 +152,157 @@ public class ProductServlet extends HttpServlet {
 
     private void CreateItem(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
+
         if (role == null) {
-            ShowErrorPage(req, resp, "401");
-        } else if (role.equals("admin")) {
+            UnauthorizedErrorPage(req, resp);
+        }
+
+        else if (role.equals("admin")) {
             String id = req.getParameter("ProductId");
-            String name = req.getParameter("Name");
+            String name = req.getParameter("ProductName");
             String cid = req.getParameter("CategoryId");
             Double price = Double.parseDouble(req.getParameter("Price"));
+            // TODO: Image field
+            Product product = new Product(id, name, cid, price, null);
+
             try {
-                productBO.addProduct(new Product(id, name, cid, price, null));
+                productBO.addProduct(product);
+            } catch (Exception e) {
+                req.setAttribute("product", product);
+                req.setAttribute("error", e.getMessage());
+                try {
+                    req.getRequestDispatcher("/Admin/Product/create.jsp").forward(req, resp);
+                } catch (Exception e1) {
+                    NotFoundErrorPage(req, resp);
+                }
             }
-            catch (SQLException e) {
-                ShowErrorPage(req, resp, "500");
-            }
-            catch (IOException e) {
-                ShowErrorPage(req, resp, "500");
-            }
+        }
+
+        else {
+            UnauthorizedErrorPage(req, resp);
         }
     }
 
     private void ShowUpdateForm(HttpServletRequest req, HttpServletResponse resp, String id) {
+
         String role = (String) req.getSession().getAttribute("role");
         if (role == null) {
-            ShowErrorPage(req, resp, "401");
-        } else if (role.equals("admin")) {
+            UnauthorizedErrorPage(req, resp);
+        }
+
+        else if (role.equals("admin")) {
+
+            Product product = null;
             try {
-                Product product = productBO.getProductById(id);
-                req.setAttribute("product", product);
-                req.getRequestDispatcher("/Admin/Product/update.jsp").forward(req, resp);
+                product = productBO.getProductById(id);
             } catch (Exception e) {
-                ShowErrorPage(req, resp, "500");
+                InternalServerErrorPage(req, resp);
             }
-        } else {
-            ShowErrorPage(req, resp, "401");
+
+            if (product == null) {
+                NotFoundErrorPage(req, resp);
+            }
+
+            else {
+                req.setAttribute("product", product);
+                try {
+                    req.getRequestDispatcher("/Admin/Product/update.jsp").forward(req, resp);
+                } catch (Exception e) {
+                    NotFoundErrorPage(req, resp);
+                }
+            }
+        }
+
+        else {
+            UnauthorizedErrorPage(req, resp);
         }
     }
 
     private void UpdateItem(HttpServletRequest req, HttpServletResponse resp, String id) {
         String role = (String) req.getSession().getAttribute("role");
+
         if (role == null) {
-            ShowErrorPage(req, resp, "401");
-        } else if (role.equals("admin")) {
+            UnauthorizedErrorPage(req, resp);
+        }
+
+        else if (role.equals("admin")) {
             String name = req.getParameter("Name");
             String cid = req.getParameter("CategoryId");
             Double price = Double.parseDouble(req.getParameter("Price"));
+            // TODO: Image field
+            Product product = null;
             try {
-                productBO.updateProduct(new Product(id, name, cid, price, null));
-            } catch (SQLException | IOException e) {
-                ShowErrorPage(req, resp, "500");
+                product = productBO.getProductById(id);
+            } catch (Exception e) {
+                InternalServerErrorPage(req, resp);
             }
+
+            if (product != null) {
+                product.setProductName(name);
+                product.setCategoryId(cid);
+                product.setPrice(price);
+                try {
+                    productBO.updateProduct(product);
+                } catch (Exception e) {
+                    req.setAttribute("error", e.getMessage());
+                    req.setAttribute("product", product);
+                    try {
+                        req.getRequestDispatcher("/Admin/Product/update.jsp").forward(req, resp);
+                    } catch (Exception e1) {
+                        NotFoundErrorPage(req, resp);
+                    }
+                }
+            }
+
+            else {
+                NotFoundErrorPage(req, resp);
+            }
+
+        }
+
+        else {
+            UnauthorizedErrorPage(req, resp);
         }
     }
 
     private void DeleteItem(HttpServletRequest req, HttpServletResponse resp, String id) {
-String role = (String) req.getSession().getAttribute("role");
+        String role = (String) req.getSession().getAttribute("role");
         if (role == null) {
-            ShowErrorPage(req, resp, "401");
-        } else if (role.equals("admin")) {
+            UnauthorizedErrorPage(req, resp);
+        }
+
+        else if (role.equals("admin")) {
             try {
                 productBO.deleteProduct(id);
             } catch (SQLException e) {
-                ShowErrorPage(req, resp, "500");
+                req.setAttribute("error", e.getMessage());
+                req.getRequestDispatcher("/Admin/Product/index.jsp");
             }
+        }
+
+        else {
+            UnauthorizedErrorPage(req, resp);
         }
     }
 
     private void ShowErrorPage(HttpServletRequest req, HttpServletResponse resp, String errorCode) {
+        try {
+            req.getRequestDispatcher("/Error/Error" + errorCode + ".jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void NotFoundErrorPage(HttpServletRequest req, HttpServletResponse resp) {
+        ShowErrorPage(req, resp, "404");
+    }
+
+    private void UnauthorizedErrorPage(HttpServletRequest req, HttpServletResponse resp) {
+        ShowErrorPage(req, resp, "401");
+    }
+
+    private void InternalServerErrorPage(HttpServletRequest req, HttpServletResponse resp) {
+        ShowErrorPage(req, resp, "500");
     }
 
 }

@@ -140,11 +140,12 @@
 <section id="login-modal" class="modal-popup login-popup">
   <button class="form-close-btn" onclick="handleClosePopup('login')"><i class="fa-solid fa-xmark"
                                                                         style="font-size: 16px; color: white;"></i></button>
-  <form action=""
+  <form method="post"
+          action="${pageContext.request.contextPath}/login"
         style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
     <h1 style="line-height: 150%;">LOGIN</h1>
-    <input name="usernameL" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
-    <input name="passwordL" class="login-inp" type="password" placeholder="Password"
+    <input name="username" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
+    <input name="password" class="login-inp" type="password" placeholder="Password"
            onchange="validateLogin()">
     <button class="btn"
             style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">LOGIN</button>

@@ -1,4 +1,5 @@
 package lazyfood.demo.controllers;
+
 import java.io.*;
 
 import com.google.gson.Gson;
@@ -7,40 +8,47 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
 class UploadDetail implements Serializable {
     private long fileSize;
     private String fileName, uploadStatus;
     private static final long serialVersionUID = 1L;
+
     public long getFileSize() {
         return fileSize;
     }
+
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
+
     public String getFileName() {
         return fileName;
     }
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+
     public String getUploadStatus() {
         return uploadStatus;
     }
+
     public void setUploadStatus(String uploadStatus) {
         this.uploadStatus = uploadStatus;
     }
 }
+
 @WebServlet(name = "fileUploadServlet", value = "/fileUploadServlet")
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 10,      // 10 MB
-        maxRequestSize = 1024 * 1024 * 100   // 100 MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 
 public class fileUploadServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static final String UPLOAD_DIR = "uploadedFiles";
+
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -52,6 +60,7 @@ public class fileUploadServlet extends HttpServlet {
         out.print("</form>");
         out.print("</body></html>");
     }
+
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String applicationPath = getServletContext().getRealPath(""),
                 uploadPath = applicationPath + File.separator + UPLOAD_DIR;
@@ -72,7 +81,7 @@ public class fileUploadServlet extends HttpServlet {
                 System.out.println(uploadPath + File.separator + fileName);
                 details.setUploadStatus("Success");
             } catch (IOException ioObj) {
-                details.setUploadStatus("Failure : "+ ioObj.getMessage());
+                details.setUploadStatus("Failure : " + ioObj.getMessage());
             }
             fileList.add(details);
         }
