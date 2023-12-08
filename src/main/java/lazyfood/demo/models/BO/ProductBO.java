@@ -23,6 +23,14 @@ public class ProductBO {
         return productDAO.getProductById(id);
     }
 
+    public ArrayList<Product> getProductByName(String name) {
+        return productDAO.filterProduct(name, "ProductName");
+    }
+
+    public ArrayList<Product> getProductByCategoryId(String id) {
+        return productDAO.filterProduct(id, "CategoryId");
+    }
+
     public void addProduct(Product product) throws SQLException, IOException {
         if (productDAO.getProductById(product.getProductId()) == null)
             productDAO.addProduct(product);
