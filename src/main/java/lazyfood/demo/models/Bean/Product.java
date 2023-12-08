@@ -29,6 +29,8 @@ public class Product {
         this.Image = image;
     }
 
+
+
     public String getProductId() {
         return ProductId;
     }
@@ -82,7 +84,7 @@ public class Product {
         return Image;
     }
 
-    public void setImageUrl(String image) {
+    public void setImage(String image) {
         this.Image = image;
     }
 }

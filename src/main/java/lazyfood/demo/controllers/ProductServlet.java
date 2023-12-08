@@ -1,19 +1,27 @@
 package lazyfood.demo.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lazyfood.demo.models.BO.ProductBO;
 import lazyfood.demo.models.Bean.Product;
+import lazyfood.demo.utils.general;
 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
+)
 @WebServlet(urlPatterns = {
         "/Product",
         "/Product/view",
@@ -214,8 +222,15 @@ public class ProductServlet extends HttpServlet {
             String name = req.getParameter("ProductName");
             String cid = req.getParameter("CategoryId");
             Double price = Double.parseDouble(req.getParameter("Price"));
+
+            InputStream file = null;
+            try {
+                file = req.getPart("Image").getInputStream();
+            } catch (IOException | ServletException e) {
+                e.printStackTrace();
+            }
             // TODO: Image field
-            Product product = new Product(id, name, cid, price, null);
+            Product product = new Product(id, name, cid, price, general.fileToBlob(file));
 
             try {
                 productBO.addProduct(product);

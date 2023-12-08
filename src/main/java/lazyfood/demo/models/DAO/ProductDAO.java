@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import lazyfood.demo.models.Bean.Product;
+import lazyfood.demo.utils.general;
 
 import static lazyfood.demo.utils.general.convertBlobToBase64;
 
@@ -46,7 +47,7 @@ public class ProductDAO {
             String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where ProductId = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, id);
-            ResultSet res = statement.executeQuery(query);
+            ResultSet res = statement.executeQuery();
             while (res.next()) {
                 product = new Product(res.getString("ProductId"),
                         res.getString("ProductName"),
@@ -117,7 +118,7 @@ public class ProductDAO {
             statement.setString(3, product.getCategoryId());
             statement.setDouble(4, product.getPrice());
             statement.setBoolean(5, product.isAvailable());
-            statement.setString(6, product.getImage());
+            statement.setBlob(6, general.Base64toBlob(product.getImage()));
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
