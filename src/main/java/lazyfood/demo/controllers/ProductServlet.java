@@ -82,9 +82,9 @@ public class ProductServlet extends HttpServlet {
             case "/Product/delete":
                 DeleteItem(req, resp, id);
                 break;
-            case "/Product/search":
-                ShowProductsByFilter(req, resp);
-                break;
+            // case "/Product/search":
+            // ShowProductsByFilter(req, resp);
+            // break;
             default:
                 NotFoundErrorPage(req, resp);
                 break;
@@ -161,31 +161,32 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    private void ShowProductsByFilter(HttpServletRequest req, HttpServletResponse resp) {
+    // private void ShowProductsByFilter(HttpServletRequest req, HttpServletResponse
+    // resp) {
 
-        String type = req.getParameter("type");
-        String txt = req.getParameter("txt");
+    // String type = req.getParameter("type");
+    // String txt = req.getParameter("txt");
 
-        ArrayList<Product> products = null;
+    // ArrayList<Product> products = null;
 
-        if (type.equals("ProductName"))
-            products = productBO.getProductByName(txt);
-        else if (type.equals("CategoryId"))
-            products = productBO.getProductByCategoryId(txt);
+    // if (type.equals("ProductName"))
+    // products = productBO.getProductByName(txt);
+    // else if (type.equals("CategoryId"))
+    // products = productBO.getProductByCategoryId(txt);
 
-        req.setAttribute("products", products);
-        try {
-            String role = (String) req.getSession().getAttribute("role");
-            if (role == null)
-                req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
-            else if (role.equals("customer"))
-                req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
-            else if (role.equals("admin"))
-                req.getRequestDispatcher("/Admin/Product/index.jsp").forward(req, resp);
-        } catch (Exception e) {
-            NotFoundErrorPage(req, resp);
-        }
-    }
+    // req.setAttribute("products", products);
+    // try {
+    // String role = (String) req.getSession().getAttribute("role");
+    // if (role == null)
+    // req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
+    // else if (role.equals("customer"))
+    // req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
+    // else if (role.equals("admin"))
+    // req.getRequestDispatcher("/Admin/Product/index.jsp").forward(req, resp);
+    // } catch (Exception e) {
+    // NotFoundErrorPage(req, resp);
+    // }
+    // }
 
     private void ShowCreateForm(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
