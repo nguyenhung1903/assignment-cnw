@@ -111,10 +111,10 @@
 
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" name="Image" id="image-input">
+                                <input type="file" name="Image" id="image-inputA">
                             </div>
 
-                            <div class="form-group" id="image-preview"></div>
+                            <div class="form-group" id="image-previewA"></div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -157,10 +157,10 @@
 
                             <div class="form-group">
                                 <label>Image</label>
-                                <input type="file" name="ImageE" id="image-input">
+                                <input type="file" name="ImageE" id="image-inputS">
                             </div>
 
-                            <div class="form-group" id="image-preview"></div>
+                            <div class="form-group" id="image-previewS"></div>
                         </div>
                         <div class="modal-footer">
                             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -281,10 +281,13 @@
         priceInput.value = product[0].Price;
     }
 
-    const imageInput = document.getElementById('image-input');
-    const imagePreview = document.getElementById('image-preview');
+    const imageInputA = document.getElementById('image-inputA');
+    const imagePreviewA = document.getElementById('image-previewA');
+    const imageInputS = document.getElementById('image-inputS');
+    const imagePreviewS = document.getElementById('image-previewS');
 
-    imageInput.addEventListener('change', function (event) {
+
+    imageInputS.addEventListener('change', function (event) {
         const file = event.target.files[0];
 
         const reader = new FileReader();
@@ -293,8 +296,24 @@
             const img = document.createElement('img');
             img.src = e.target.result;;
             img.classList.add('preview-image');
-            imagePreview.innerHTML = '';
-            imagePreview.appendChild(img);
+            imagePreviewS.innerHTML = '';
+            imagePreviewS.appendChild(img);
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+    imageInputA.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;;
+            img.classList.add('preview-image');
+            imagePreviewA.innerHTML = '';
+            imagePreviewA.appendChild(img);
         }
 
         reader.readAsDataURL(file);
