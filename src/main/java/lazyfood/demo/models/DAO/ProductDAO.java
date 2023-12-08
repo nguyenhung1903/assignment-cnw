@@ -28,8 +28,7 @@ public class ProductDAO {
                         res.getString("CategoryName"),
                         res.getDouble("Price"),
                         res.getBoolean("IsAvailable"),
-                        convertBlobToBase64(res.getBlob("Image"))
-                ));
+                        convertBlobToBase64(res.getBlob("Image"))));
 
             }
         } catch (SQLException e) {
@@ -55,8 +54,7 @@ public class ProductDAO {
                         res.getString("CategoryName"),
                         res.getDouble("Price"),
                         res.getBoolean("IsAvailable"),
-                        convertBlobToBase64(res.getBlob("Image"))
-                );
+                        convertBlobToBase64(res.getBlob("Image")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,7 +64,51 @@ public class ProductDAO {
         return product;
     }
 
-    public void addProduct(Product product) throws SQLException, IOException{
+    public ArrayList<Product> filterProduct(String txt, String type) {
+        ArrayList<Product> products = new ArrayList<>();
+        try (Connection conn = DBConnector.getConnection()) {
+            if (type.equals("ProductName")) {
+                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where ProductName LIKE ?";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, "%" + txt + "%");
+                ResultSet res = statement.executeQuery();
+                while (res.next()) {
+                    products.add(new Product(res.getString("ProductId"),
+                            res.getString("ProductName"),
+                            res.getString("CategoryId"),
+                            res.getString("CategoryName"),
+                            res.getDouble("Price"),
+                            res.getBoolean("IsAvailable"),
+                            convertBlobToBase64(res.getBlob("Image"))));
+
+                }
+            }
+
+            else if (type.equals("CategoryId")) {
+                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where product.CategoryId = ?";
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, txt);
+                ResultSet res = statement.executeQuery();
+                while (res.next()) {
+                    products.add(new Product(res.getString("ProductId"),
+                            res.getString("ProductName"),
+                            res.getString("CategoryId"),
+                            res.getString("CategoryName"),
+                            res.getDouble("Price"),
+                            res.getBoolean("IsAvailable"),
+                            convertBlobToBase64(res.getBlob("Image"))));
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    public void addProduct(Product product) throws SQLException, IOException {
         try (Connection conn = DBConnector.getConnection()) {
             String query = "INSERT INTO product VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);

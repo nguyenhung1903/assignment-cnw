@@ -1,15 +1,5 @@
 package lazyfood.demo.models.Bean;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-
-
 public class Product {
     private String ProductId;
     private String ProductName;
@@ -17,7 +7,6 @@ public class Product {
     private String CategoryName;
     private double Price;
     private boolean IsAvailable;
-
     private String Image;
 
     public Product(String productId, String productName, String categoryId, String categoryName, double price,
@@ -87,10 +76,12 @@ public class Product {
     public void setAvailable(boolean available) {
         IsAvailable = available;
     }
+
     public String getImage() {
 
         return Image;
     }
+
     public void setImageUrl(String image) {
         this.Image = image;
     }
