@@ -63,7 +63,7 @@ public class ProductServlet extends HttpServlet {
                 DeleteItem(req, resp, id);
                 break;
             default:
-                ShowErrorPage(req, resp, "404");
+                NotFoundErrorPage(req, resp);
                 break;
         }
     }
@@ -83,7 +83,7 @@ public class ProductServlet extends HttpServlet {
                 DeleteItem(req, resp, id);
                 break;
             default:
-                ShowErrorPage(req, resp, "404");
+                NotFoundErrorPage(req, resp);
                 break;
         }
     }
@@ -113,7 +113,7 @@ public class ProductServlet extends HttpServlet {
         try {
             products = productBO.getAllProducts();
         } catch (SQLException e) {
-            ShowErrorPage(req, resp, "500");
+            InternalServerErrorPage(req, resp);
             return;
         }
 
@@ -126,27 +126,50 @@ public class ProductServlet extends HttpServlet {
                 req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
             else if (role.equals("admin"))
                 req.getRequestDispatcher("/Admin/Product/index.jsp").forward(req, resp);
-
         } catch (Exception e) {
-            ShowErrorPage(req, resp, "500");
+            NotFoundErrorPage(req, resp);
         }
     }
 
     private void ShowDetailsProduct(HttpServletRequest req, HttpServletResponse resp, String id) {
+        Product product = null;
+        try {
+            product = productBO.getProductById(id);
+        } catch (Exception e) {
+            InternalServerErrorPage(req, resp);
+        }
+
+        if (product == null) {
+            NotFoundErrorPage(req, resp);
+        } else {
+            try {
+                req.setAttribute("products", product);
+                String role = (String) req.getSession().getAttribute("role");
+                if (role == null)
+                    req.getRequestDispatcher("Customer/Product/details.jsp").forward(req, resp);
+                else if (role.equals("customer"))
+                    req.getRequestDispatcher("/Customer/Product/details.jsp").forward(req, resp);
+                else if (role.equals("admin"))
+                    req.getRequestDispatcher("/Admin/Product/details.jsp").forward(req, resp);
+            } catch (Exception e) {
+                NotFoundErrorPage(req, resp);
+            }
+
+        }
     }
 
     private void ShowCreateForm(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
         if (role == null) {
-            ShowErrorPage(req, resp, "401");
+            UnauthorizedErrorPage(req, resp);
         } else if (role.equals("admin")) {
             try {
                 req.getRequestDispatcher("/Admin/Product/create.jsp").forward(req, resp);
             } catch (Exception e) {
-                ShowErrorPage(req, resp, "500");
+                NotFoundErrorPage(req, resp);
             }
         } else {
-            ShowErrorPage(req, resp, "401");
+            UnauthorizedErrorPage(req, resp);
         }
     }
 
