@@ -35,7 +35,7 @@ public class ProductBO {
         if (productDAO.getProductById(product.getProductId()) == null)
             productDAO.addProduct(product);
         else
-            throw new SQLIntegrityConstraintViolationException("Primary key is duplicated.");
+            throw new SQLIntegrityConstraintViolationException("ProductID is duplicated.");
     }
 
     public void updateProduct(Product product) throws SQLException, IOException {
