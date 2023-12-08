@@ -64,23 +64,15 @@
     <section style="display: flex; gap:32px">
       <section style="display: flex; flex-direction: column; gap: 16px; padding: 16px;">
         <span style="color: white;">Filter By Category</span>
-        <select name="" id="">
-          <option value="">Food</option>
-          <option value="">Drink</option>
-        </select>
-      </section>
-      <section style="display: flex; flex-direction: column; gap: 16px; padding: 16px;">
-        <span style="color: white;">Filter By Price</span>
-        <select name="" id="">
-          <option value="">Price Expensive to Cheap</option>
-          <option value="">Price Cheap to Expensive</option>
+        <select id="categoryField">
+          <option value="0">All</option>
+          <option value="1">Food</option>
+          <option value="2">Drink</option>
         </select>
       </section>
     </section>
     <section style="display: flex; gap:32px; align-items: center;">
-      <input type="text" placeholder="Type name product"
-             style="padding:8px 16px; color: white; border:2px solid white; border-radius: 8px; background: transparent;">
-      <button class="btn" style="padding:8px 16px;background: #f29a51; border: none;">Search</button>
+      <input type="text" placeholder="Type name product"  id="search-input" style="padding:8px 16px; color: white; border:2px solid white; border-radius: 8px; background: transparent;">
     </section>
   </section>
   <section id="products" style="padding: 16px; background: #111111; border-radius: 24px;" class="parent">
@@ -203,8 +195,8 @@
 </body>
 
 <script src="./assets/js/login.js"></script>
-<script src="./assets/js/general.js"></script>
 <script src="./assets/js/product.js"></script>
+<script src="./assets/js/general.js"></script>
 <script src="./assets/js/cart.js"></script>
 
 </html>
