@@ -1,5 +1,6 @@
 package lazyfood.demo.models.BO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import lazyfood.demo.models.Bean.Order;
@@ -12,7 +13,7 @@ public class OrderBO {
         orderDAO = new OrderDAO();
     }
 
-    public ArrayList<Order> getAllOrders() {
+    public ArrayList<Order> getAllOrders() throws SQLException {
         return orderDAO.getAllOrders();
     }
 
