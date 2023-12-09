@@ -1,7 +1,7 @@
 <%@ page import="lazyfood.demo.models.Bean.Product" %>
 
 <% Product product = (Product) request.getAttribute("product"); %>
-<form action="./Product/update?ProductId=<%= product.getProductId()%>" method="post" enctype="multipart/form-data">
+<form action="./Product/update" method="post" enctype="multipart/form-data">
     <div class="modal-header">
         <h4 class="modal-title">Edit Product (<%= product.getProductId()%>)</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
