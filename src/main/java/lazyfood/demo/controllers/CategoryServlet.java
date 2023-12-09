@@ -1,10 +1,8 @@
 package lazyfood.demo.controllers;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,12 +23,12 @@ public class CategoryServlet extends HttpServlet {
     private CategoryBO categoryBO;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         categoryBO = new CategoryBO();
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getServletPath();
         String id = req.getParameter("id");
         switch (action) {
@@ -53,7 +51,7 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String action = req.getServletPath();
         String id = req.getParameter("id");
         switch (action) {
@@ -123,7 +121,7 @@ public class CategoryServlet extends HttpServlet {
 
             Category category = new Category(id, name);
             try {
-                categoryBO.addCategory(null);
+                categoryBO.addCategory(category);
             } catch (Exception e) {
                 req.setAttribute("category", category);
                 req.setAttribute("error", e.getMessage());

@@ -1,6 +1,5 @@
 package lazyfood.demo.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -23,11 +22,12 @@ import lazyfood.demo.utils.general;
         maxRequestSize = 1024 * 1024 * 100 // 100 MB
 )
 @WebServlet(urlPatterns = {
-        "/Product",
-        "/Product/view",
-        "/Product/create",
-        "/Product/update",
-        "/Product/delete",
+        "/Admin/Product",
+        "/Admin/Product/view",
+        "/Admin/Product/create",
+        "/Admin/Product/edit",
+        "/Admin/Product/update",
+        "/Admin/Product/delete",
         "/api/Product/getAllProductIds"
 })
 public class ProductServlet extends HttpServlet {
@@ -46,29 +46,26 @@ public class ProductServlet extends HttpServlet {
         String action = req.getServletPath();
         String id = req.getParameter("id");
         switch (action) {
-
             // api
             case "/api/Product/getAllProductIds":
                 getAllProductIds(req, resp);
                 break;
-
-            case "/Product":
+            case "/Admin/Product":
                 ShowAllProducts(req, resp);
                 break;
-            case "/Product/view":
+            case "/Admin/Product/view":
                 if (id != null)
                     ShowDetailsProduct(req, resp, id);
                 else
                     ShowAllProducts(req, resp);
                 break;
-            case "/Product/create":
-                ShowCreateForm(req, resp);
+
+            case "/Admin/Product/edit":
+                ShowUpdateForm(req, resp);
                 break;
-            case "/Product/update":
-                ShowUpdateForm(req, resp, id);
-                break;
-            case "/Product/delete":
-                DeleteItem(req, resp, id);
+
+            case "/Admin/Product/delete":
+                DeleteItem(req, resp);
                 break;
             default:
                 NotFoundErrorPage(req, resp);
@@ -79,20 +76,27 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
-        String id = req.getParameter("id");
         switch (action) {
-            case "/Product/create":
+            case "/Admin/Product/create":
                 CreateItem(req, resp);
                 break;
-            case "/Product/update":
-                UpdateItem(req, resp, id);
+            case "/Admin/Product/update":
+                UpdateItem(req, resp);
                 break;
-            case "/Product/delete":
-                DeleteItem(req, resp, id);
+            default:
+                NotFoundErrorPage(req, resp);
                 break;
-            // case "/Product/search":
-            // ShowProductsByFilter(req, resp);
-            // break;
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getServletPath();
+
+        switch (action) {
+            case "/Admin/Product/delete":
+                DeleteItem(req, resp);
+                break;
             default:
                 NotFoundErrorPage(req, resp);
                 break;
@@ -136,7 +140,7 @@ public class ProductServlet extends HttpServlet {
             else if (role.equals("customer"))
                 req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
             else if (role.equals("admin"))
-                req.getRequestDispatcher("/Admin/Product/index.jsp").forward(req, resp);
+                req.getRequestDispatcher("/Admin/pages/ManageProduct.jsp").forward(req, resp);
         } catch (Exception e) {
             NotFoundErrorPage(req, resp);
         }
@@ -169,48 +173,6 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    // private void ShowProductsByFilter(HttpServletRequest req, HttpServletResponse
-    // resp) {
-
-    // String type = req.getParameter("type");
-    // String txt = req.getParameter("txt");
-
-    // ArrayList<Product> products = null;
-
-    // if (type.equals("ProductName"))
-    // products = productBO.getProductByName(txt);
-    // else if (type.equals("CategoryId"))
-    // products = productBO.getProductByCategoryId(txt);
-
-    // req.setAttribute("products", products);
-    // try {
-    // String role = (String) req.getSession().getAttribute("role");
-    // if (role == null)
-    // req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
-    // else if (role.equals("customer"))
-    // req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp);
-    // else if (role.equals("admin"))
-    // req.getRequestDispatcher("/Admin/Product/index.jsp").forward(req, resp);
-    // } catch (Exception e) {
-    // NotFoundErrorPage(req, resp);
-    // }
-    // }
-
-    private void ShowCreateForm(HttpServletRequest req, HttpServletResponse resp) {
-        String role = (String) req.getSession().getAttribute("role");
-        if (role == null) {
-            UnauthorizedErrorPage(req, resp);
-        } else if (role.equals("admin")) {
-            try {
-                req.getRequestDispatcher("/Admin/Product/create.jsp").forward(req, resp);
-            } catch (Exception e) {
-                NotFoundErrorPage(req, resp);
-            }
-        } else {
-            UnauthorizedErrorPage(req, resp);
-        }
-    }
-
     private void CreateItem(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
 
@@ -230,7 +192,7 @@ public class ProductServlet extends HttpServlet {
             } catch (IOException | ServletException e) {
                 e.printStackTrace();
             }
-            // TODO: Image field
+
             Product product = new Product(id, name, cid, price, general.fileToBlob(file));
 
             try {
@@ -244,41 +206,12 @@ public class ProductServlet extends HttpServlet {
                     NotFoundErrorPage(req, resp);
                 }
             }
-        }
 
-        else {
-            UnauthorizedErrorPage(req, resp);
-        }
-    }
-
-    private void ShowUpdateForm(HttpServletRequest req, HttpServletResponse resp, String id) {
-
-        String role = (String) req.getSession().getAttribute("role");
-        if (role == null) {
-            UnauthorizedErrorPage(req, resp);
-        }
-
-        else if (role.equals("admin")) {
-
-            Product product = null;
             try {
-                product = productBO.getProductById(id);
-            } catch (Exception e) {
-                InternalServerErrorPage(req, resp);
-            }
-
-            if (product == null) {
+                resp.sendRedirect("..?page=product");
+            } catch (IOException e) {
                 NotFoundErrorPage(req, resp);
             }
-
-            else {
-                req.setAttribute("product", product);
-                try {
-                    req.getRequestDispatcher("/Admin/Product/update.jsp").forward(req, resp);
-                } catch (Exception e) {
-                    NotFoundErrorPage(req, resp);
-                }
-            }
         }
 
         else {
@@ -286,7 +219,40 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    private void UpdateItem(HttpServletRequest req, HttpServletResponse resp, String id) {
+     private void ShowUpdateForm(HttpServletRequest req, HttpServletResponse resp) {
+
+         String role = (String) req.getSession().getAttribute("role");
+         String ProductId = req.getParameter("ProductId");
+         if (role == null) {
+             UnauthorizedErrorPage(req, resp);
+         }else if (role.equals("admin")) {
+             Product product = null;
+             try {
+             product = productBO.getProductById(ProductId);
+             } catch (Exception e) {
+             InternalServerErrorPage(req, resp);
+             }
+
+             if (product == null) {
+             NotFoundErrorPage(req, resp);
+             }
+
+             else {
+             req.setAttribute("product", product);
+             try {
+             req.getRequestDispatcher("/Admin/Product/edit.jsp").forward(req, resp);
+             } catch (Exception e) {
+             NotFoundErrorPage(req, resp);
+             }
+         }
+     }
+
+     else {
+     UnauthorizedErrorPage(req, resp);
+     }
+     }
+
+    private void UpdateItem(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
 
         if (role == null) {
@@ -294,10 +260,18 @@ public class ProductServlet extends HttpServlet {
         }
 
         else if (role.equals("admin")) {
-            String name = req.getParameter("Name");
-            String cid = req.getParameter("CategoryId");
-            Double price = Double.parseDouble(req.getParameter("Price"));
-            // TODO: Image field
+            String id = req.getParameter("ProductIdE");
+            String name = req.getParameter("ProductNameE");
+            String cid = req.getParameter("CategoryIdE");
+            Double price = Double.parseDouble(req.getParameter("PriceE"));
+
+            InputStream file = null;
+            try {
+                file = req.getPart("ImageE").getInputStream();
+            } catch (IOException | ServletException e) {
+                e.printStackTrace();
+            }
+
             Product product = null;
             try {
                 product = productBO.getProductById(id);
@@ -309,13 +283,21 @@ public class ProductServlet extends HttpServlet {
                 product.setProductName(name);
                 product.setCategoryId(cid);
                 product.setPrice(price);
+
+                try {
+                    if (req.getPart("ImageE").getSize() > 0)
+                        product.setImage(general.fileToBlob(file));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 try {
                     productBO.updateProduct(product);
                 } catch (Exception e) {
                     req.setAttribute("error", e.getMessage());
                     req.setAttribute("product", product);
                     try {
-                        req.getRequestDispatcher("/Admin/Product/update.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/Admin/pages/ManageProduct.jsp").forward(req, resp);
                     } catch (Exception e1) {
                         NotFoundErrorPage(req, resp);
                     }
@@ -326,6 +308,11 @@ public class ProductServlet extends HttpServlet {
                 NotFoundErrorPage(req, resp);
             }
 
+            try {
+                resp.sendRedirect("..?page=product");
+            } catch (IOException e) {
+                NotFoundErrorPage(req, resp);
+            }
         }
 
         else {
@@ -333,7 +320,7 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    private void DeleteItem(HttpServletRequest req, HttpServletResponse resp, String id) {
+    private void DeleteItem(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
         if (role == null) {
             UnauthorizedErrorPage(req, resp);
@@ -341,6 +328,7 @@ public class ProductServlet extends HttpServlet {
 
         else if (role.equals("admin")) {
             try {
+                String id = req.getParameter("ProductIdD");
                 productBO.deleteProduct(id);
             } catch (SQLException e) {
                 req.setAttribute("error", e.getMessage());
@@ -350,6 +338,12 @@ public class ProductServlet extends HttpServlet {
 
         else {
             UnauthorizedErrorPage(req, resp);
+        }
+
+        try {
+            resp.sendRedirect("..?page=product");
+        } catch (IOException e) {
+            NotFoundErrorPage(req, resp);
         }
     }
 

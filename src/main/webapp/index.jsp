@@ -9,17 +9,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
-<header id="home" style="color:white; width: 100%;">
+<header id="home" style="color:white; width: 100%; position: fixed; transition: all .2s linear; z-index: 100; left: 50%;
+    transform: translateX(-50%);">
   <nav id="navbar" style="display: flex; align-items: center; justify-content: space-between; max-width: 1440px; width:100%; margin: auto;
-                left: 50%;
-                transform: translateX(-50%); position: fixed; transition: all .2s linear; z-index: 100;">
+                ">
     <section style="min-width: 480px;">
       <img src="./assets/imgs/logo.png" alt="" width="120px" height="120px" style="cursor: pointer;"
            onclick=" window.location = './';">
@@ -38,22 +37,22 @@
       <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button>
       <span onclick="handleCart()" class="opacity"
             style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
-                        <i class="fa fa-cart-shopping"></i>
-                        <span id="cartCount" style="position: absolute; border-radius: 100%; background: red; color: white; top: 0;
+            <i class="fa fa-cart-shopping"></i>
+            <span id="cartCount" style="position: absolute; border-radius: 100%; background: red; color: white; top: 0;
                             right: 4px;
                             font-size: 12px;
                             width: 20px;
                             height: 20px;
                             display: none;
                             place-items: center;">0</span>
-                    </span>
+          </span>
     </section>
   </nav>
 </header>
 <section class="shop-ani"
          style="position: absolute; bottom:10%; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column;">
-  <button class="btn" style="background: #f29a51; border: none;"
-          onclick=" window.location = './#products';">Shop Now !</button>
+  <button class="btn" style="background: #f29a51; border: none;" onclick=" window.location = './#products';">Shop
+    Now !</button>
   <i class="fa-solid fa-chevron-down" style="color: white; text-align: center;"></i>
 </section>
 <section
@@ -72,33 +71,51 @@
       </section>
     </section>
     <section style="display: flex; gap:32px; align-items: center;">
-      <input type="text" placeholder="Type name product"  id="search-input" style="padding:8px 16px; color: white; border:2px solid white; border-radius: 8px; background: transparent;">
+      <input type="text" placeholder="Type name product" id="search-input"
+             style="padding:8px 16px; color: white; border:2px solid white; border-radius: 8px; background: transparent;">
     </section>
   </section>
   <section id="products" style="padding: 16px; background: #111111; border-radius: 24px;" class="parent">
-    <!-- <div style="display: flex; flex-direction: column; gap: 8px; color:white" class="grid-item">
-        <img src="./assets//background.jpg" alt="" width="100%" height="100%"
-            style="border-top-right-radius: 8px; border-top-left-radius: 8px;">
-        <span style="padding: 8px 16px 0px 16px;">$6.00</span>
-        <section
-            style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px">
-            <span>Burger</span>
-            <span style="display: none;" id="item-id">SP01</span>
-            <section class="item-card">
-                <span class="increment"
+    <div style="display: flex; flex-direction: column; gap: 8px; color:white" class="grid-item">
+      <img src="./assets//background.jpg" alt="" width="100%" height="100%"
+           style="border-top-right-radius: 8px; border-top-left-radius: 8px;">
+      <span style="padding: 8px 16px 0px 16px;">$6.00</span>
+      <section style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px">
+        <span>Burger</span>
+        <span style="display: none;" id="item-id">SP01</span>
+        <section class="item-card">
+              <span class="increment"
                     style="padding: 4px 12px; border: 1px solid white; background: transparent; cursor: pointer;">+</span>
-                <span class="value"
-                    style="padding: 4px 12px; border: 1px solid white; background: transparent;">1</span>
-                <span class="decrement"
-                    style="padding: 4px 12px; border: 1px solid white; background: transparent; cursor: pointer;">-</span>
-            </section>
+          <span class="value" style="padding: 4px 12px; border: 1px solid white; background: transparent;">1</span>
+          <span class="decrement"
+                style="padding: 4px 12px; border: 1px solid white; background: transparent; cursor: pointer;">-</span>
         </section>
-        <section style="padding: 16px;">
-            <button class="btn btnCart" style="background: #f29a51; border: none; width: 100%;"><i
-                    class="fa fa-cart-shopping"></i></button>
+      </section>
+      <section style="padding: 16px;">
+        <button class="btn btnCart" style="background: #f29a51; border: none; width: 100%;"><i
+                class="fa fa-cart-shopping"></i></button>
+      </section>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px; color:white" class="grid-item">
+      <img src="./assets//background.jpg" alt="" width="100%" height="100%"
+           style="border-top-right-radius: 8px; border-top-left-radius: 8px;">
+      <span style="padding: 8px 16px 0px 16px;">$6.00</span>
+      <section style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px">
+        <span>Burger 1</span>
+        <span style="display: none;" id="item-id">SP01</span>
+        <section class="item-card">
+              <span class="increment"
+                    style="padding: 4px 12px; border: 1px solid white; background: transparent; cursor: pointer;">+</span>
+          <span class="value" style="padding: 4px 12px; border: 1px solid white; background: transparent;">1</span>
+          <span class="decrement"
+                style="padding: 4px 12px; border: 1px solid white; background: transparent; cursor: pointer;">-</span>
         </section>
-    </div> -->
-
+      </section>
+      <section style="padding: 16px;">
+        <button class="btn btnCart" style="background: #f29a51; border: none; width: 100%;"><i
+                class="fa fa-cart-shopping"></i></button>
+      </section>
+    </div>
   </section>
 </section>
 <footer id="footer"
@@ -132,41 +149,35 @@
 <section id="login-modal" class="modal-popup login-popup">
   <button class="form-close-btn" onclick="handleClosePopup('login')"><i class="fa-solid fa-xmark"
                                                                         style="font-size: 16px; color: white;"></i></button>
-  <form method="post"
-          action="${pageContext.request.contextPath}/login"
+  <form method="post" action="${pageContext.request.contextPath}/login"
         style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
     <h1 style="line-height: 150%;">LOGIN</h1>
     <input name="username" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
-    <input name="password" class="login-inp" type="password" placeholder="Password"
-           onchange="validateLogin()">
-    <button class="btn"
-            style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">LOGIN</button>
+    <input name="password" class="login-inp" type="password" placeholder="Password" onchange="validateLogin()">
+    <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">LOGIN</button>
   </form>
 </section>
 
 <section id="signup-modal" class="modal-popup signup-popup">
   <button class="form-close-btn" onclick="handleClosePopup()"><i class="fa-solid fa-xmark"
                                                                  style="font-size: 16px; color: white;"></i></button>
-  <form action=""
-        style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
+  <form action="" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
     <h1 style="line-height: 150%;">SIGN UP</h1>
     <input name="name" class="login-inp" type="text" placeholder="Fullname">
-    <input name="usernameS" class="login-inp" type="text" placeholder="Username"
-           onchange="validateLogin()">
+    <input name="usernameS" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
     <span class="validate-text user-length"><i class="fa-regular fa-circle-check"></i> Username must has at
-                    least 3
-                    letters</span>
+          least 3
+          letters</span>
     <span class="validate-text user-letter"><i class="fa-regular fa-circle-check"></i> Username must not
-                    start by a
-                    number</span>
-    <input name="passwordS" class="login-inp" type="password" placeholder="Password"
-           onchange="validateLogin()">
+          start by a
+          number</span>
+    <input name="passwordS" class="login-inp" type="password" placeholder="Password" onchange="validateLogin()">
     <span class="validate-text pass-length"><i class="fa-regular fa-circle-check"></i> Password must has at
-                    least 3
-                    letters</span>
+          least 3
+          letters</span>
     <span class="validate-text pass-letter"><i class="fa-regular fa-circle-check"></i> Password must
-                    contains letters
-                    and numbers</span>
+          contains letters
+          and numbers</span>
     <input name="phone" class="login-inp" type="text" placeholder="Phone">
     <input name="addr" class="login-inp" type="text" placeholder="Address">
     <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">SIGN
@@ -175,25 +186,30 @@
 </section>
 
 <section id="cart-modal" class="cart-container">
-  <button class="form-close-btn" style=" left: 10px!important;top: 10px!important"
-          onclick="handleCart('close')"><i class="fa-solid fa-xmark"
-                                           style="font-size: 16px; color: white;"></i></button>
+  <button class="form-close-btn" style=" left: 10px!important;top: 10px!important" onclick="handleCart('close')"><i
+          class="fa-solid fa-xmark" style="font-size: 16px; color: white;"></i></button>
   <h1 style="text-align: center; margin-top: 32px; width: 100%;">CART</h1>
   <section id="cartSection"
            style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 48px; max-height: 70%; overflow: auto;">
 
   </section>
   <div style="width: 100%; height: 1px; background-color: rgb(128,128,128);"></div>
-  <section id="cartTotal"
-           style="display: flex;width: 100%; align-items:center; justify-content: space-between; padding: 0 16px;">
-    <span>Total</span>
-    <span>100.00$</span>
-  </section>
-  <button class="btn"
-          style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">Confirm</button>
+
+  <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;"
+          onclick="handleShowConfirm()">Purchase</button>
+</section>
+
+<section id="confirm-modal" class="modal-popup confirm-popup">
+  <button class="form-close-btn" onclick="handleClosePopup('cart')"><i class="fa-solid fa-xmark"
+                                                                       style="font-size: 16px; color: white;"></i></button>
+  <form action="" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
+    <h1 style="line-height: 150%;">Order Information</h1>
+    <input name="phone" class="login-inp" type="text" placeholder="Phone">
+    <input name="addr" class="login-inp" type="text" placeholder="Address" value="Current Address">
+    <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">Confirm</button>
+  </form>
 </section>
 </body>
-
 <script src="./assets/js/login.js"></script>
 <script src="./assets/js/product.js"></script>
 <script src="./assets/js/general.js"></script>

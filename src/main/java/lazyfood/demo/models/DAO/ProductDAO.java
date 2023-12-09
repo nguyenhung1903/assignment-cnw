@@ -130,14 +130,14 @@ public class ProductDAO {
 
     public void updateProduct(Product product) throws SQLException, IOException {
         try (Connection conn = DBConnector.getConnection()) {
-            String query = "UPDATE product SET ProductName = ?, CategoryId = ?, Price = ?, IsAvailable = ?, ImageUrl = ? WHERE ProductId = ?";
+            String query = "UPDATE product SET ProductName = ?, CategoryId = ?, Price = ?, IsAvailable = ?, Image = ? WHERE ProductId = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(6, product.getProductId());
             statement.setString(1, product.getProductName());
             statement.setString(2, product.getCategoryId());
             statement.setDouble(3, product.getPrice());
             statement.setBoolean(4, product.isAvailable());
-            statement.setString(5, product.getImage());
+            statement.setBlob(5, general.Base64toBlob(product.getImage()));
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
