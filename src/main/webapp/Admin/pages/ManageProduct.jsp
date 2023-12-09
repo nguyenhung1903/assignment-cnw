@@ -202,7 +202,7 @@
 
 
     function populateFormFields(productId) {
-        $('#editProductModal .modal-content').load('./Product/edit?ProductId=' + productId);
+        $('#editProductModal .modal-content').load('./Product/update?ProductId=' + productId);
         // const productIdInput = document.querySelector('input[name="ProductIdE"]');
         // const productNameInput = document.querySelector('input[name="ProductNameE"]');
         // const categoryIdInput = document.querySelector('select[name="CategoryIdE"]');
