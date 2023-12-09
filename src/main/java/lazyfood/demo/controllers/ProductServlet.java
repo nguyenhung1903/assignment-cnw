@@ -25,7 +25,6 @@ import lazyfood.demo.utils.general;
         "/Admin/Product",
         "/Admin/Product/view",
         "/Admin/Product/create",
-        "/Admin/Product/edit",
         "/Admin/Product/update",
         "/Admin/Product/delete",
         "/api/Product/getAllProductIds"
@@ -60,7 +59,7 @@ public class ProductServlet extends HttpServlet {
                     ShowAllProducts(req, resp);
                 break;
 
-            case "/Admin/Product/edit":
+            case "/Admin/Product/update":
                 ShowUpdateForm(req, resp);
                 break;
 
@@ -219,38 +218,38 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-     private void ShowUpdateForm(HttpServletRequest req, HttpServletResponse resp) {
+    private void ShowUpdateForm(HttpServletRequest req, HttpServletResponse resp) {
 
-         String role = (String) req.getSession().getAttribute("role");
-         String ProductId = req.getParameter("ProductId");
-         if (role == null) {
-             UnauthorizedErrorPage(req, resp);
-         }else if (role.equals("admin")) {
-             Product product = null;
-             try {
-             product = productBO.getProductById(ProductId);
-             } catch (Exception e) {
-             InternalServerErrorPage(req, resp);
-             }
+        String role = (String) req.getSession().getAttribute("role");
+        String ProductId = req.getParameter("ProductId");
+        if (role == null) {
+            UnauthorizedErrorPage(req, resp);
+        } else if (role.equals("admin")) {
+            Product product = null;
+            try {
+                product = productBO.getProductById(ProductId);
+            } catch (Exception e) {
+                InternalServerErrorPage(req, resp);
+            }
 
-             if (product == null) {
-             NotFoundErrorPage(req, resp);
-             }
+            if (product == null) {
+                NotFoundErrorPage(req, resp);
+            }
 
-             else {
-             req.setAttribute("product", product);
-             try {
-             req.getRequestDispatcher("/Admin/Product/edit.jsp").forward(req, resp);
-             } catch (Exception e) {
-             NotFoundErrorPage(req, resp);
-             }
-         }
-     }
+            else {
+                req.setAttribute("product", product);
+                try {
+                    req.getRequestDispatcher("/Admin/Product/edit.jsp").forward(req, resp);
+                } catch (Exception e) {
+                    NotFoundErrorPage(req, resp);
+                }
+            }
+        }
 
-     else {
-     UnauthorizedErrorPage(req, resp);
-     }
-     }
+        else {
+            UnauthorizedErrorPage(req, resp);
+        }
+    }
 
     private void UpdateItem(HttpServletRequest req, HttpServletResponse resp) {
         String role = (String) req.getSession().getAttribute("role");
