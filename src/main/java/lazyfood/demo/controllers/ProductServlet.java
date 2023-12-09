@@ -58,7 +58,6 @@ public class ProductServlet extends HttpServlet {
                 else
                     ShowAllProducts(req, resp);
                 break;
-
             case "/Admin/Product/update":
                 ShowUpdateForm(req, resp);
                 break;
