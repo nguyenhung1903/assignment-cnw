@@ -6,16 +6,19 @@ import java.util.Date;
 public class Order {
     private String OrderId;
     private String CustomerId;
+    private String CustomerName;
     private ArrayList<ProductInOrder> Products;
     private Date Time;
     private String PhoneNumber;
     private String Address;
     private boolean IsDelivered;
 
-    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time, String phoneNumber,
+    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products, Date time,
+            String phoneNumber,
             String address, boolean isDelivered) {
         OrderId = orderId;
         CustomerId = customerId;
+        CustomerName = customerName;
         Products = products;
         Time = time;
         PhoneNumber = phoneNumber;
@@ -23,10 +26,12 @@ public class Order {
         IsDelivered = isDelivered;
     }
 
-    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time, String phoneNumber,
+    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products, Date time,
+            String phoneNumber,
             String address) {
         OrderId = orderId;
         CustomerId = customerId;
+        CustomerName = customerName;
         Products = products;
         Time = time;
         PhoneNumber = phoneNumber;
@@ -34,9 +39,11 @@ public class Order {
         IsDelivered = false;
     }
 
-    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, Date time) {
+    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products,
+            Date time) {
         OrderId = orderId;
         CustomerId = customerId;
+        CustomerName = customerName;
         Products = products;
         Time = time;
         IsDelivered = false;
@@ -56,6 +63,14 @@ public class Order {
 
     // public void setCustomerId(String customerId) {
     // CustomerId = customerId;
+    // }
+
+    public String getCustomerName() {
+        return CustomerName;
+    }
+
+    // public void setCustomerName(String customerName) {
+    // CustomerName = customerName;
     // }
 
     public ArrayList<ProductInOrder> getProducts() {
