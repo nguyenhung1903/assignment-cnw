@@ -1,4 +1,4 @@
-Step to deploy server on Tomcat server
+Steps to deploy server on Tomcat server
 
 **For the first time:**
 1) Build project
