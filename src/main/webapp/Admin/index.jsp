@@ -30,10 +30,14 @@
                                 <ul
                                     style="list-style: none; gap: 16px; display: flex; flex-direction: column; align-items: self-start; width: 100%;">
                                     <li class="list-item">
-                                        <a href="?page=product" id="product" style="text-decoration: none;  width: 100%; height: 100%; display: block;">Manage Product</a>
+                                        <a href="?page=product" id="product"
+                                            style="text-decoration: none;  width: 100%; height: 100%; display: block;">Manage
+                                            Product</a>
                                     </li>
                                     <li class="list-item">
-                                        <a href="?page=order" id="order" style="text-decoration: none;  width: 100%; height: 100%; display: block;">View Customer's Order</a>
+                                        <a href="?page=order" id="order"
+                                            style="text-decoration: none;  width: 100%; height: 100%; display: block;">View
+                                            Customer's Order</a>
                                     </li>
                                 </ul>
                             </section>
@@ -50,31 +54,30 @@
                 </tr>
             </table>
         </body>
-<script>
-    function getUrlVars()
-    {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for(var i = 0; i < hashes.length; i++)
-        {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
-    }
+        <script>
+            function getUrlVars() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
 
-    $(document).ready(function () {
-        var q = getUrlVars();
-        if (q["page"] == "product") {
-            $(".list-item").removeClass("active");
-            $("#product").addClass("active");
-            $("#content").load("./Product");
-        } else if (q["page"] == "order") {
-            $(".list-item").removeClass("active");
-            $("#order").addClass("active");
-            $("#content").load("./pages/ViewOrder.html");
-        }
-    });
-</script>
-</html>
+            $(document).ready(function () {
+                var q = getUrlVars();
+                if (q["page"] == "product") {
+                    $(".list-item").removeClass("active");
+                    $("#product").addClass("active");
+                    $("#content").load("./Product/ManageProduct.jsp");
+                } else if (q["page"] == "order") {
+                    $(".list-item").removeClass("active");
+                    $("#order").addClass("active");
+                    $("#content").load("./pages/ViewOrder.html");
+                }
+            });
+        </script>
+
+        </html>
