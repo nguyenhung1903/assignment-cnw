@@ -40,7 +40,7 @@ public class OrderDAO {
 
         ArrayList<Order> orders = new ArrayList<>();
         try (Connection conn = DBConnector.getConnection()) {
-            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order`. INNER JOIN user on `order`.CustomerId = user.UserId WHERE UserId = ?";
+            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId WHERE UserId = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, userId);
             ResultSet res = statement.executeQuery();
@@ -67,6 +67,24 @@ public class OrderDAO {
         try (Connection conn = DBConnector.getConnection()) {
             ProductDAO productDAO = new ProductDAO();
 
+            String query2 = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId WHERE OrderId = ?";
+            PreparedStatement statement2 = conn.prepareStatement(query2);
+            statement2.setString(1, orderId);
+            ResultSet res2 = statement2.executeQuery();
+            while (res2.next()) {
+                order = new Order(res2.getString("OrderId"),
+                        res2.getString("CustomerId"),
+                        res2.getString("FullName"),
+                        products,
+                        res2.getDate("Time"),
+                        res2.getString("PhoneNumber"),
+                        res2.getString("Address"),
+                        res2.getBoolean("IsDelivered"));
+            }
+
+            if (order == null)
+                return null;
+
             String query = "SELECT ProductId, Quantity FROM orderproduct WHERE OrderId = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, orderId);
@@ -76,19 +94,8 @@ public class OrderDAO {
                         res.getInt("Quantity")));
             }
 
-            String query2 = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order`. INNER JOIN user on `order`.CustomerId = user.UserId WHERE OrderId = ?";
-            Statement statement2 = conn.createStatement();
-            ResultSet res2 = statement2.executeQuery(query2);
-            while (res2.next()) {
-                order = new Order(res.getString("OrderId"),
-                        res.getString("CustomerId"),
-                        res.getString("FullName"),
-                        products,
-                        res.getDate("Time"),
-                        res.getString("PhoneNumber"),
-                        res.getString("Address"),
-                        res.getBoolean("IsDelivered"));
-            }
+            order.setProducts(products);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +110,7 @@ public class OrderDAO {
     public void setDeliveredState(String orderId, boolean state) {
         try (Connection conn = DBConnector.getConnection()) {
 
-            String query = "UPDATE order SET IsDelivered = ? WHERE OrderId = ?";
+            String query = "UPDATE `order` SET IsDelivered = ? WHERE OrderId = ?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setBoolean(1, state);
             statement.setString(2, orderId);

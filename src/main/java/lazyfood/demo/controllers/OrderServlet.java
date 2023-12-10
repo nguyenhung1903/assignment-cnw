@@ -103,7 +103,7 @@ public class OrderServlet extends HttpServlet {
         req.setAttribute("orders", orders);
 
         try {
-            req.getRequestDispatcher("/Admin/Order/index.jsp").forward(req, resp); // TODO: Replace path
+            req.getRequestDispatcher("/Admin/Order/testindex.jsp").forward(req, resp); // TODO: Replace path
         } catch (Exception e) {
             NotFoundErrorPage(req, resp);
         }
@@ -125,7 +125,7 @@ public class OrderServlet extends HttpServlet {
 
         req.setAttribute("orders", orders);
         try {
-            req.getRequestDispatcher("/Customer/Order/index.jsp").forward(req, resp); // TODO: Replace path
+            req.getRequestDispatcher("/Customer/Order/testindex.jsp").forward(req, resp); // TODO: Replace path
         } catch (Exception e) {
             NotFoundErrorPage(req, resp);
         }
@@ -148,6 +148,7 @@ public class OrderServlet extends HttpServlet {
         try {
             order = orderBO.getOrderById(id);
         } catch (SQLException e) {
+            e.printStackTrace();
             InternalServerErrorPage(req, resp);
             return;
         }
@@ -155,8 +156,9 @@ public class OrderServlet extends HttpServlet {
         if (role.equals("admin")) {
             req.setAttribute("order", order);
             try {
-                req.getRequestDispatcher("/Admin/Order/details.jsp").forward(req, resp); // TODO: Replace path
+                req.getRequestDispatcher("/Admin/Order/testdetails.jsp").forward(req, resp); // TODO: Replace path
             } catch (Exception e) {
+                e.printStackTrace();
                 NotFoundErrorPage(req, resp);
             }
 
@@ -167,7 +169,8 @@ public class OrderServlet extends HttpServlet {
             if (order.getCustomerId().equals(userid)) {
                 req.setAttribute("order", order);
                 try {
-                    req.getRequestDispatcher("/Customer/Order/details.jsp").forward(req, resp); // TODO: Replace path
+                    req.getRequestDispatcher("/Customer/Order/testdetails.jsp").forward(req, resp); // TODO: Replace
+                                                                                                    // path
                 } catch (Exception e) {
                     NotFoundErrorPage(req, resp);
                 }

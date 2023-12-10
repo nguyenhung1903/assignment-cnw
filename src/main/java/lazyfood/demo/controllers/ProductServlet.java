@@ -146,9 +146,9 @@ public class ProductServlet extends HttpServlet {
         try {
             String role = (String) req.getSession().getAttribute("role");
             if (role == null)
-                req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp); // TODO: Replace path
+                req.getRequestDispatcher("/Customer/Product/testindex.jsp").forward(req, resp); // TODO: Replace path
             else if (role.equals("customer"))
-                req.getRequestDispatcher("/Customer/Product/index.jsp").forward(req, resp); // TODO: Replace path
+                req.getRequestDispatcher("/Customer/Product/testindex.jsp").forward(req, resp); // TODO: Replace path
             else if (role.equals("admin"))
                 req.getRequestDispatcher("/Admin/pages/ManageProduct.jsp").forward(req, resp);
         } catch (Exception e) {
@@ -211,7 +211,7 @@ public class ProductServlet extends HttpServlet {
                 req.setAttribute("product", product);
                 req.setAttribute("error", e.getMessage());
                 try {
-                    req.getRequestDispatcher("/Admin/Product/create.jsp").forward(req, resp); // TODO: Replace path
+                    req.getRequestDispatcher("/Admin/Product/testcreate.jsp").forward(req, resp); // TODO: Replace path
                 } catch (Exception e1) {
                     NotFoundErrorPage(req, resp);
                 }
@@ -343,7 +343,7 @@ public class ProductServlet extends HttpServlet {
                 productBO.deleteProduct(id);
             } catch (SQLException e) {
                 req.setAttribute("error", e.getMessage());
-                req.getRequestDispatcher("/Admin/Product/index.jsp"); // TODO: Replace path
+                req.getRequestDispatcher("/Admin/Product/testindex.jsp"); // TODO: Replace path
             }
         }
 
