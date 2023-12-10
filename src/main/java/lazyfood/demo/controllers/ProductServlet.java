@@ -43,6 +43,8 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getServletPath();
+        String role = (String) req.getSession().getAttribute("role");
+
         String id = req.getParameter("id");
         switch (action) {
             // api
@@ -50,10 +52,19 @@ public class ProductServlet extends HttpServlet {
                 getAllProductIds(req, resp);
                 break;
             case "/Admin/Product":
-                ShowAllProducts(req, resp);
+                if (role == null)
+                    UnauthorizedErrorPage(req, resp);
+                else if (!role.equals("admin"))
+                    UnauthorizedErrorPage(req, resp);
+                else
+                    ShowAllProducts(req, resp);
                 break;
             case "/Admin/Product/view":
-                if (id != null)
+                if (role == null)
+                    UnauthorizedErrorPage(req, resp);
+                else if (!role.equals("admin"))
+                    UnauthorizedErrorPage(req, resp);
+                else if (id != null)
                     ShowDetailsProduct(req, resp, id);
                 else
                     ShowAllProducts(req, resp);

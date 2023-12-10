@@ -17,15 +17,15 @@ public class OrderBO {
         return orderDAO.getAllOrders();
     }
 
-    public ArrayList<Order> getOrdersByUser(String userId) {
+    public ArrayList<Order> getOrdersByUser(String userId) throws SQLException {
         return orderDAO.getOrdersByUser(userId);
     }
 
-    public Order getOrderById(String orderId) {
+    public Order getOrderById(String orderId) throws SQLException {
         return orderDAO.getOrderById(orderId);
     }
 
-    public void setOrderDelivered(String orderId, boolean state) {
+    public void setOrderDelivered(String orderId, boolean state) throws SQLException {
         orderDAO.setDeliveredState(orderId, state);
     }
 }
