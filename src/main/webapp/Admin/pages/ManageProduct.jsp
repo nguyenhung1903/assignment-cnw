@@ -196,24 +196,38 @@
 
 
             <body>
-                <section
-                    style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
-                    <section
-                        style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;"
-                        class="shadow-xl">
-                        <button class="btn btn-primary" style="opacity: 0;">Back</button>
+<%--                <section--%>
+<%--                    style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px; margin:auto;">--%>
+<%--                    <section--%>
+<%--                        style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;"--%>
+<%--                        class="shadow-xl">--%>
+<%--                        <section style="width: 100%;">--%>
+<%--                            <input type="text"--%>
+<%--                                style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;"--%>
+<%--                                placeholder="Search">--%>
+<%--                            <select id="searchClass" name="searchClass"--%>
+<%--                                style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">--%>
+<%--                                <option value="" selected="selected">Search By</option>--%>
+<%--                                <option value="">Product ID</option>--%>
+<%--                                <option value="">Product Name</option>--%>
+<%--                            </select>--%>
+<%--                        </section>--%>
+<%--                    </section>--%>
+<%--                </section>--%>
+
+                <section style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
+                    <section style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: center; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;" class="shadow-xl">
                         <section style="width: 60%;">
                             <input type="text"
-                                style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;"
-                                placeholder="Search">
+                                   style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;"
+                                   placeholder="Search">
                             <select id="searchClass" name="searchClass"
-                                style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">
+                                    style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">
                                 <option value="" selected="selected">Search By</option>
                                 <option value="">Product ID</option>
                                 <option value="">Product Name</option>
                             </select>
                         </section>
-                        <button class="btn btn-primary" onclick="history.back()">Back</button>
                     </section>
                 </section>
 
