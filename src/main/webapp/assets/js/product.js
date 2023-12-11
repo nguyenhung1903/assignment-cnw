@@ -26,7 +26,7 @@ const renderProduct = (data) => {
 
     const img = document.createElement("img");
     img.style.cssText =
-      "border-top-right-radius: 8px; border-top-left-radius: 8px; width: 100%; height: 100%;";
+      "border-top-right-radius: 8px; border-top-left-radius: 8px; width: 328px; height: 218px";
     img.src = "./assets/imgs/background.jpg";
     if (item.Image.length > 10) {
       img.src = "data:image/jpeg;base64," + item.Image;
