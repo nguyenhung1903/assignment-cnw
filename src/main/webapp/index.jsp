@@ -33,8 +33,17 @@
         </section>
 
         <section style="display: flex; align-items: center; gap:16px; min-width: 440px;">
-          <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
-          <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button>
+
+          <!-- Appear when user login -->
+
+          <button class="btn">LOGOUT</button>
+          <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
+
+          <!-- Appear when user didn't login -->
+
+          <!-- <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
+          <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button> -->
+
           <span onclick="handleCart()" class="opacity"
             style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
             <i class="fa fa-cart-shopping"></i>
