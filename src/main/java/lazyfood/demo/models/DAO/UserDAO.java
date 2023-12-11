@@ -48,4 +48,23 @@ public class UserDAO {
 
         return user;
     }
+
+    public void addUser(User user) throws SQLException {
+        try (Connection conn = DBConnector.getConnection()) {
+            String query = "INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, user.getUserId());
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getRole());
+            statement.setString(5, user.getFullname());
+            statement.setString(6, user.getPhoneNumber());
+            statement.setString(7, user.getAddress());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Exception at User.addUser()" + e.getMessage());
+        }
+    }
 }

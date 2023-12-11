@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import lazyfood.demo.models.Bean.Product;
 import lazyfood.demo.utils.general;
 
-import javax.swing.plaf.nimbus.State;
-
 import static lazyfood.demo.utils.general.convertBlobToBase64;
 
 public class ProductDAO {
