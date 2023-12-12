@@ -38,7 +38,7 @@ public class UserServlet extends HttpServlet {
         String username = request.getParameter("usernameS");
         String userid = "ctm" + general.generateId("ctm", username);
         String password = request.getParameter("passwordS");
-        String role = "Customer";
+        String role = "customer";
         String fullname = request.getParameter("name");
         String phonenumber = request.getParameter("phone");
         String address = request.getParameter("addr");

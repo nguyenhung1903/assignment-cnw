@@ -1,8 +1,12 @@
 package lazyfood.demo.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +14,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lazyfood.demo.models.BO.OrderBO;
+import lazyfood.demo.models.BO.UserBO;
 import lazyfood.demo.models.Bean.Order;
+import lazyfood.demo.models.Bean.User;
 
 @WebServlet(urlPatterns = {
         "/Order",
@@ -56,6 +62,14 @@ public class OrderServlet extends HttpServlet {
                 else
                     ShowAllMyOrders(req, resp);
                 break;
+            case "/Order/create":
+                if (role == null) {
+                    UnauthorizedErrorPage(req, resp);
+                } else{
+                    ShowOrderComponent(req, resp);
+                }
+                break;
+
             case "/Admin/Order/view":
                 if (role == null)
                     UnauthorizedErrorPage(req, resp);
@@ -198,8 +212,33 @@ public class OrderServlet extends HttpServlet {
         }
     }
 
-    private void CreateItem(HttpServletRequest req, HttpServletResponse resp) {
+    private void CreateItem(HttpServletRequest req, HttpServletResponse resp){
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
 
+        JSONObject jsonObject = new JSONObject(jb.toString());
+        JSONArray carts = jsonObject.getJSONObject("cart").toJSONArray();
+        System.out.println(carts.toString());
+    }
+
+    private void ShowOrderComponent(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            String userid = (String) req.getSession().getAttribute("userid");
+            User user = (new UserBO()).getUserById(userid);
+
+            req.setAttribute("addr", user.getAddress());
+            req.setAttribute("phone", user.getPhoneNumber());
+
+            req.getRequestDispatcher("/Customer/Order/OrderComponent.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            NotFoundErrorPage(req, resp);
+        }
     }
 
     private void ShowErrorPage(HttpServletRequest req, HttpServletResponse resp, String errorCode) {
