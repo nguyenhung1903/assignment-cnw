@@ -44,7 +44,7 @@
             <% if (role.equals("admin")) {%>
               <button class="btn" onclick="window.location = './Admin';">Dashboard</button>
             <% } else {  %>
-                <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
+                <button class="btn" onclick="window.location = './Order';">Your Orders</button>
            <% } %>
           <%
             }else{ %>

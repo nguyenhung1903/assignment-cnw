@@ -61,10 +61,10 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("role", user.getRole());
                     response.sendRedirect("index.jsp");
                 } else {
-                    response.sendRedirect("login");
+                    response.sendRedirect("index.jsp");
                 }
             } else {
-                response.sendRedirect("login");
+                response.sendRedirect("index.jsp");
             }
         }
 

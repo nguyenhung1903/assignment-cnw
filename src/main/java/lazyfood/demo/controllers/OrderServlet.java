@@ -39,12 +39,6 @@ public class OrderServlet extends HttpServlet {
         String id = req.getParameter("OrderId");
 
         switch (action) {
-            case "/Order/create":
-
-                break;
-            case "/Order/delete":
-
-                break;
             case "/Order":
                 ShowAllMyOrders(req, resp);
                 break;
@@ -82,12 +76,32 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getServletPath();
+        String role = (String) req.getSession().getAttribute("role");
 
-    }
+        switch (action) {
+            case "/Order/create":
+                if (role == null)
+                    UnauthorizedErrorPage(req, resp);
+                else if (!role.equals("customer"))
+                    UnauthorizedErrorPage(req, resp);
+                else
+                    CreateItem(req, resp);
+                break;
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            case "/Admin/Order/update":
+                if (role == null)
+                    UnauthorizedErrorPage(req, resp);
+                else if (!role.equals("admin"))
+                    UnauthorizedErrorPage(req, resp);
+                else
+                    ShowAllOrders(req, resp);
+                break;
 
+            default:
+                NotFoundErrorPage(req, resp);
+                break;
+        }
     }
 
     private void ShowAllOrders(HttpServletRequest req, HttpServletResponse resp) {
@@ -124,8 +138,9 @@ public class OrderServlet extends HttpServlet {
         }
 
         req.setAttribute("orders", orders);
+
         try {
-            req.getRequestDispatcher("/Customer/Order/testindex.jsp").forward(req, resp); // TODO: Replace path
+            req.getRequestDispatcher("/Customer/Order/Orders.jsp").forward(req, resp);
         } catch (Exception e) {
             NotFoundErrorPage(req, resp);
         }
@@ -169,8 +184,7 @@ public class OrderServlet extends HttpServlet {
             if (order.getCustomerId().equals(userid)) {
                 req.setAttribute("order", order);
                 try {
-                    req.getRequestDispatcher("/Customer/Order/testdetails.jsp").forward(req, resp); // TODO: Replace
-                                                                                                    // path
+                    req.getRequestDispatcher("/Customer/Order/OrderDetails.jsp").forward(req, resp);
                 } catch (Exception e) {
                     NotFoundErrorPage(req, resp);
                 }
@@ -181,6 +195,10 @@ public class OrderServlet extends HttpServlet {
                 return;
             }
         }
+    }
+
+    private void CreateItem(HttpServletRequest req, HttpServletResponse resp) {
+
     }
 
     private void ShowErrorPage(HttpServletRequest req, HttpServletResponse resp, String errorCode) {

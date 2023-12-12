@@ -3,21 +3,20 @@ package lazyfood.demo.controllers;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+
 import lazyfood.demo.models.BO.UserBO;
 import lazyfood.demo.models.Bean.User;
+import lazyfood.demo.utils.general;
 
 @WebServlet(urlPatterns = { "/register" })
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
 
     private UserBO userBO;
 
@@ -36,8 +35,8 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userid = "ctm" + ID_GENERATOR.getAndIncrement();
         String username = request.getParameter("usernameS");
+        String userid = "ctm" + general.generateId("ctm", username);
         String password = request.getParameter("passwordS");
         String role = "Customer";
         String fullname = request.getParameter("name");
