@@ -212,7 +212,7 @@
                     <div class="table-title">
                         <div class="row">
                             <div class="col-sm-6">
-                                <h2>Manage <b>Order</b></h2>
+                                <h2>My orders</h2>
                             </div>
 
                         </div>

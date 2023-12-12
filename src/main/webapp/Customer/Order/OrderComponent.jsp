@@ -39,7 +39,7 @@ $("#btnOrderConfirm").click(function (e) {
     $.ajax({
         type: "POST",
         url:"./Order/create",
-        data:jsonOrder,
+        data: JSON.stringify(jsonOrder),
         success:function(result){
             alert("Order successfully");
         }

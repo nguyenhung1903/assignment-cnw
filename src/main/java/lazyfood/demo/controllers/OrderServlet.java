@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.json.JSONObject;
-import org.json.JSONArray;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -65,7 +68,7 @@ public class OrderServlet extends HttpServlet {
             case "/Order/create":
                 if (role == null) {
                     UnauthorizedErrorPage(req, resp);
-                } else{
+                } else {
                     ShowOrderComponent(req, resp);
                 }
                 break;
@@ -212,18 +215,21 @@ public class OrderServlet extends HttpServlet {
         }
     }
 
-    private void CreateItem(HttpServletRequest req, HttpServletResponse resp){
-        StringBuffer jb = new StringBuffer();
-        String line = null;
-        try {
-            BufferedReader reader = req.getReader();
-            while ((line = reader.readLine()) != null)
-                jb.append(line);
-        } catch (Exception e) { /*report an error*/ }
+    private void CreateItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get the request's BufferedReader to read the JSON data
+        BufferedReader reader = request.getReader();
 
-        JSONObject jsonObject = new JSONObject(jb.toString());
-        JSONArray carts = jsonObject.getJSONObject("cart").toJSONArray();
-        System.out.println(carts.toString());
+        // Use Gson to parse the JSON data into a JsonObject
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+        JsonArray cart = jsonObject.getAsJsonArray("cart");
+        for (JsonElement item : cart) {
+            JsonObject obj = item.getAsJsonObject();
+            JsonPrimitive id = obj.getAsJsonPrimitive("ProductId");
+            JsonPrimitive quantity = obj.getAsJsonPrimitive("Quantity");
+            System.out.println(id.getAsString() + " " + quantity.getAsString());
+        }
     }
 
     private void ShowOrderComponent(HttpServletRequest req, HttpServletResponse resp) {
