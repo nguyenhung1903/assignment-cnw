@@ -93,7 +93,7 @@
             $(document).prop('title', 'View Customer\'s Order');
             $(".list-item").removeClass("active");
             $("#order").addClass("active");
-            $("#content").load("./pages/ViewOrder.html");
+            $("#content").load("./Order");
         }
 
     });

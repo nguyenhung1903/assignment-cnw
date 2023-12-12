@@ -1,7 +1,6 @@
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="lazyfood.demo.models.Bean.Order" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.google.gson.Gson" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My orders</title>
+    <title>Manage Order</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -43,7 +42,7 @@
 
         .table-title {
             padding-bottom: 15px;
-            background: #435d7d;
+            background: #f29a51;
             color: #fff;
             padding: 16px 30px;
             margin: -20px -25px 10px;
@@ -195,40 +194,52 @@
     </style>
 
 <body>
-            <section
-                style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
-                <section style="display: flex; align-items: center; width: 100%; padding : 16px; border-radius: 24px;"
-                    class="shadow-xl">
-                    <button class="btn btn-info" style="align-self: flex-start; height: 100%;"
-                        onclick="history.back()">Back</button>
-
-                    <input type="text"
-                        style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); margin: 0 auto; width: 50%;"
-                        placeholder="Search By Order's ID">
-                </section>
+    <section
+        style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
+        <section
+            style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: center; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;"
+            class="shadow-xl">
+            <section style="width: 60%;">
+                <input type="text"
+                    style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;"
+                    placeholder="Search">
+                <select id="searchClass" name="searchClass"
+                    style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">
+                    <option value="" selected="selected">Search By</option>
+                    <option value="">Order ID</option>
+                    <option value="">Customer's Name</option>
+                </select>
             </section>
+        </section>
+    </section>
 
-            <div class="container">
-                <div class="table-wrapper">
-                    <div class="table-title">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h2>My orders</h2>
-                            </div>
-
-                        </div>
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Order</b></h2>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Address</th>
-                                <th>Phone</th>
-                                <th>Time</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orderBox">
+
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <colgroup>
+                    <col span="1" style="width: 15%;">
+                    <col span="1" style="width: 15%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer's ID</th>
+                        <th>Customer's Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="orderBox">
                         <%
                             ArrayList<Order> orders = (ArrayList<Order>) request.getAttribute("orders");
                             for (int i = 0; i < orders.size(); i++) {
@@ -241,28 +252,31 @@
                                     isdelivered = "Delivering";
                                 }
                             %>
-                            <tr>
-                                <td> <%= orders.get(i).getOrderId() %> </td>
-                                <td> <%= orders.get(i).getAddress() %> </td>
-                                <td> <%= orders.get(i).getPhoneNumber() %> </td>
-                                <td> <%= formattedDateTime %> </td>
-                                <td> <%= isdelivered %> </td>
-                                <td><a href="#viewDetailModal" class="detail" data-toggle="modal" data-product-id=<%=orders.get(i).getOrderId()%> ><i
-                                class="material-icons" data-toggle="tooltip" title="Detail ">&#xe8f4;</i></a></td>
-                            </tr>
+                        <tr>
+                            <td> <%= orders.get(i).getOrderId() %> </td>
+                            <td> <%= orders.get(i).getCustomerId() %> </td>
+                            <td> <%= orders.get(i).getCustomerName() %> </td>
+                            <td> <%= orders.get(i).getAddress() %> </td>
+                            <td> <%= orders.get(i).getPhoneNumber() %> </td>
+                            <td> <%= formattedDateTime %> </td>
+                            <td> <%= isdelivered %> </td>
+                            <td><a href="#viewDetailModal" class="detail" data-toggle="modal" data-product-id=<%= orders.get(i).getOrderId() %>><i
+                                    class="material-icons" data-toggle="tooltip" title="Detail ">&#xe8f4;</i></a></td>
+                        </tr>
                         <% } %>
-                        </tbody>
-                    </table>
+
+                </tbody>
+            </table>
+
+        </div>
+        <div id="viewDetailModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
                 </div>
-                <div id="viewDetailModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>
@@ -271,14 +285,14 @@
     detailButtons.forEach(function (detailButton) {
         detailButton.addEventListener('click', function (event) {
             event.preventDefault();
-            const orderId = this.getAttribute('data-product-id');
-            $('#viewDetailModal .modal-content').load('./Order/view?OrderId=' + orderId);
 
+            const orderId = this.getAttribute('data-product-id');
+            //get orderId to get product logic here
+            $('#viewDetailModal .modal-content').load('./Order/view?OrderId=' + orderId);
         });
     });
+
     const detailButton = document.querySelector('.detail');
-
-
 
 </script>
 

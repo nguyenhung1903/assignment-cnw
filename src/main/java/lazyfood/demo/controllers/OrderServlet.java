@@ -138,7 +138,7 @@ public class OrderServlet extends HttpServlet {
         req.setAttribute("orders", orders);
 
         try {
-            req.getRequestDispatcher("/Admin/Order/testindex.jsp").forward(req, resp); // TODO: Replace path
+            req.getRequestDispatcher("/Admin/pages/ManageOrder.jsp").forward(req, resp);
         } catch (Exception e) {
             NotFoundErrorPage(req, resp);
         }
@@ -193,7 +193,7 @@ public class OrderServlet extends HttpServlet {
         if (role.equals("admin")) {
             req.setAttribute("order", order);
             try {
-                req.getRequestDispatcher("/Admin/Order/testdetails.jsp").forward(req, resp); // TODO: Replace path
+                req.getRequestDispatcher("/Admin/pages/OrderDetails.jsp").forward(req, resp); // TODO: Replace path
             } catch (Exception e) {
                 e.printStackTrace();
                 NotFoundErrorPage(req, resp);
