@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="lazyfood.demo.models.Bean.Order" %>
 <%@ page import="lazyfood.demo.models.Bean.ProductInOrder" %>
 <%@ page import="java.util.ArrayList" %>
@@ -11,7 +12,7 @@ String isdelivered = null;
     if (order.isDelivered()) isdelivered = "Delivered";
     else isdelivered = "Delivering";
 %>
-<form>
+<form action="${pageContext.request.contextPath}/Admin/Order/update?OrderId=<%=order.getOrderId()%>" method="post">
     <div class="modal-header">
         <h4 class="modal-title">Order's Detail</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

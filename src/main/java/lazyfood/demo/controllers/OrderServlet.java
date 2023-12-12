@@ -86,9 +86,6 @@ public class OrderServlet extends HttpServlet {
                 else
                     ShowAllOrders(req, resp);
                 break;
-            case "/Admin/Order/update":
-
-                break;
             default:
                 NotFoundErrorPage(req, resp);
                 break;
@@ -116,7 +113,7 @@ public class OrderServlet extends HttpServlet {
                 else if (!role.equals("admin"))
                     UnauthorizedErrorPage(req, resp);
                 else
-                    ShowAllOrders(req, resp);
+                    UpdateItem(req, resp);
                 break;
 
             default:
@@ -193,7 +190,7 @@ public class OrderServlet extends HttpServlet {
         if (role.equals("admin")) {
             req.setAttribute("order", order);
             try {
-                req.getRequestDispatcher("/Admin/pages/OrderDetails.jsp").forward(req, resp); // TODO: Replace path
+                req.getRequestDispatcher("/Admin/pages/OrderDetails.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 NotFoundErrorPage(req, resp);
@@ -249,6 +246,8 @@ public class OrderServlet extends HttpServlet {
             e.printStackTrace();
             InternalServerErrorPage(request, response);
         }
+
+        response.sendRedirect(request.getContextPath() + "/Order");
     }
 
     private void ShowOrderComponent(HttpServletRequest req, HttpServletResponse resp) {
@@ -263,6 +262,24 @@ public class OrderServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             NotFoundErrorPage(req, resp);
+        }
+    }
+
+    public void UpdateItem(HttpServletRequest request, HttpServletResponse response) {
+
+        String orderId = request.getParameter("OrderId");
+
+        try {
+            orderBO.setOrderDelivered(orderId, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            InternalServerErrorPage(request, response);
+        }
+
+        try {
+            response.sendRedirect(request.getContextPath() + "/Admin/?page=order");
+        } catch (Exception e) {
+            NotFoundErrorPage(request, response);
         }
     }
 

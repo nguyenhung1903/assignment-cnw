@@ -1,6 +1,6 @@
 <%-- Created by IntelliJ IDEA. User: nguyenhung1903 Date: 12/7/2023 Time: 9:34 PM To change this template use File |
     Settings | File Templates. --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <head>
     <meta charset="UTF-8">
