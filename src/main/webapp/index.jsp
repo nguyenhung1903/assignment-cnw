@@ -34,15 +34,18 @@
 
         <section style="display: flex; align-items: center; gap:16px; min-width: 440px;">
 
-          <!-- Appear when user login -->
-
-          <button class="btn">LOGOUT</button>
-          <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
-
-          <!-- Appear when user didn't login -->
-
-          <!-- <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
-          <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button> -->
+          <%
+            String userId = (String) session.getAttribute("userid");
+            String username = (String) session.getAttribute("username");
+            if(userId != null){
+          %>
+            <button class="btn" onclick="window.location = './logout'">( <%= username %>) LOGOUT</button>
+            <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
+          <%
+            }else{ %>
+            <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
+            <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button>
+          <% } %>
 
           <span onclick="handleCart()" class="opacity"
             style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
@@ -225,21 +228,4 @@
   <script src="./assets/js/product.js"></script>
   <script src="./assets/js/general.js"></script>
   <script src="./assets/js/cart.js"></script>
-
-  <section id="confirm-modal" class="modal-popup confirm-popup">
-    <button class="form-close-btn" onclick="handleClosePopup('cart')"><i class="fa-solid fa-xmark"
-        style="font-size: 16px; color: white;"></i></button>
-    <form action="" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
-      <h1 style="line-height: 150%;">Order Information</h1>
-      <input name="phone" class="login-inp" type="text" placeholder="Phone">
-      <input name="addr" class="login-inp" type="text" placeholder="Address" value="Current Address">
-      <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">Confirm</button>
-    </form>
-  </section>
-  </body>
-  <script src="./assets/js/login.js"></script>
-  <script src="./assets/js/product.js"></script>
-  <script src="./assets/js/general.js"></script>
-  <script src="./assets/js/cart.js"></script>
-
   </html>
