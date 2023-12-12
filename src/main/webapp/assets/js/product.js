@@ -1,6 +1,6 @@
 getAllProducts = async () => {
   return await $.ajax({
-    url: "./api/Product/getAllProductIds",
+    url: "./api/Product/getAllProduct",
     type: "GET",
     success: function (data) {
       return data;

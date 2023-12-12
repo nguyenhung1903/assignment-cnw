@@ -8,12 +8,14 @@
     <title>Dashboard</title>
 
     <link rel="stylesheet" href="./assets/css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./assets/js/utils.js"></script>
 </head>
 
 <body>
@@ -62,28 +64,38 @@
             alert("You are not admin, please login again");
             window.location.href = "..";
     <%}%>
-    function getUrlVars() {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-        for (var i = 0; i < hashes.length; i++) {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
-    }
 
     $(document).ready(function () {
         var q = getUrlVars();
         if (q["page"] == "product") {
+            $(document).prop('title', 'Manage Product');
             $(".list-item").removeClass("active");
             $("#product").addClass("active");
-            $("#content").load("./Product");
+
+            var keyword = q["keyword"];
+            var classId = q["class"];
+            var pageLoad = "./Product";
+            if (keyword != null && keyword !== "") {
+                pageLoad += "?keyword=" + keyword + "&class="+classId;
+            }
+
+            console.log(pageLoad);
+
+            $("#content").load(pageLoad, () => {
+                $("#searchBar").on("keydown", function(e) {
+                    if(e.which == 13){
+                        console.log($("#searchClass").val());
+                        window.location.href = ".?page=product&keyword=" + $(this).val() + "&class="+$("#searchClass").val();
+                    }
+                });
+            });
         } else if (q["page"] == "order") {
+            $(document).prop('title', 'View Customer\'s Order');
             $(".list-item").removeClass("active");
             $("#order").addClass("active");
             $("#content").load("./pages/ViewOrder.html");
         }
+
     });
 </script>
 

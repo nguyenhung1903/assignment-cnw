@@ -48,4 +48,8 @@ public class ProductBO {
         else
             throw new SQLException("Product not found");
     }
+
+    public ArrayList<Product> filterProduct(String value, String type) throws SQLException {
+        return productDAO.filterProduct(value, type);
+    }
 }

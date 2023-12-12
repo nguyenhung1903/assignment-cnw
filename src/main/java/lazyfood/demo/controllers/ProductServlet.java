@@ -27,7 +27,7 @@ import lazyfood.demo.utils.general;
         "/Admin/Product/create",
         "/Admin/Product/update",
         "/Admin/Product/delete",
-        "/api/Product/getAllProductIds"
+        "/api/Product/getAllProduct"
 })
 public class ProductServlet extends HttpServlet {
 
@@ -48,8 +48,8 @@ public class ProductServlet extends HttpServlet {
         String id = req.getParameter("id");
         switch (action) {
             // api
-            case "/api/Product/getAllProductIds":
-                getAllProductIds(req, resp);
+            case "/api/Product/getAllProduct":
+                getAllProduct(req, resp);
                 break;
             case "/Admin/Product":
                 if (role == null)
@@ -112,7 +112,7 @@ public class ProductServlet extends HttpServlet {
         }
     }
 
-    private void getAllProductIds(HttpServletRequest req, HttpServletResponse resp) {
+    private void getAllProduct(HttpServletRequest req, HttpServletResponse resp) {
         ArrayList<Product> products = null;
         try {
             products = productBO.getAllProducts();
@@ -133,9 +133,19 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void ShowAllProducts(HttpServletRequest req, HttpServletResponse resp) {
+
         ArrayList<Product> products = null;
         try {
-            products = productBO.getAllProducts();
+            String keyword = req.getParameter("keyword");
+            String searchClass = req.getParameter("class");
+
+            if (keyword == null && searchClass == null)
+                products = productBO.getAllProducts();
+            else {
+                if ( searchClass == null || searchClass.isEmpty())
+                    searchClass = "ProductName";
+                products = productBO.filterProduct(keyword, searchClass);
+            }
         } catch (SQLException e) {
             InternalServerErrorPage(req, resp);
             return;

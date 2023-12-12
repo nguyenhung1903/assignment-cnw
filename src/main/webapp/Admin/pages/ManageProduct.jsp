@@ -1,22 +1,7 @@
 <%@ page import="java.util.ArrayList" %>
     <%@ page import="lazyfood.demo.models.Bean.Product" %>
         <%@ page import="com.google.gson.Gson" %>
-            <!DOCTYPE html>
-            <html lang="en">
-
-            <head>
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>Manage Product</title>
-                <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-                <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-                <link rel="stylesheet"
-                    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-                <link rel="stylesheet" href="./index.css">
+<%@ page import="java.util.stream.Collectors" %>
                 <style>
                     .shadow-xl {
                         box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
@@ -218,14 +203,11 @@
                 <section style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
                     <section style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: center; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;" class="shadow-xl">
                         <section style="width: 60%;">
-                            <input type="text"
-                                   style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;"
-                                   placeholder="Search">
-                            <select id="searchClass" name="searchClass"
-                                    style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">
+                            <input name = "keyword"  id = "searchBar" type="text" style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128); width: 60%;" placeholder="Search">
+                            <select name = "searchClass" id="searchClass" style="padding: 12px 16px; border-radius: 8px; border: 1px solid rgb(128,128,128);">
                                 <option value="" selected="selected">Search By</option>
-                                <option value="">Product ID</option>
-                                <option value="">Product Name</option>
+                                <option value="ProductId">Product ID</option>
+                                <option value="ProductName">Product Name</option>
                             </select>
                         </section>
                     </section>
@@ -258,7 +240,8 @@
                                 </tr>
                             </thead>
                             <tbody id="productBox">
-                                <% ArrayList<Product> products = (ArrayList<Product>) request.getAttribute("products");
+                                <%
+                                        ArrayList<Product> products = (ArrayList<Product>) request.getAttribute("products");
                                         Gson gson = new Gson();
                                         String jsonProducts = gson.toJson(products);
                                         for (int i = 0; i < products.size(); i++) { %>
@@ -381,8 +364,6 @@
                         </div>
                     </div>
                 </div>
-            </body>
-
             <script>
                 const js_products = <%= jsonProducts %>;
 
@@ -443,6 +424,10 @@
                         productIdInput.value = productId;
                     });
                 });
-            </script>
 
-            </html>
+                $(document).ready(()=>{
+                    var q = getUrlVars();
+                    $("#searchBar").val(q["keyword"]);
+                    $("#searchClass").val(q["class"]);
+                });
+            </script>

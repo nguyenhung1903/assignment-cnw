@@ -69,10 +69,10 @@ public class ProductDAO {
     public ArrayList<Product> filterProduct(String txt, String type) {
         ArrayList<Product> products = new ArrayList<>();
         try (Connection conn = DBConnector.getConnection()) {
-            if (type.equals("ProductName")) {
-                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where ProductName LIKE ?";
+            if (type.equals("CategoryId")) {
+                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where product.CategoryId = ?";
                 PreparedStatement statement = conn.prepareStatement(query);
-                statement.setString(1, "%" + txt + "%");
+                statement.setString(1, txt);
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     products.add(new Product(res.getString("ProductId"),
@@ -84,12 +84,10 @@ public class ProductDAO {
                             convertBlobToBase64(res.getBlob("Image"))));
 
                 }
-            }
-
-            else if (type.equals("CategoryId")) {
-                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where product.CategoryId = ?";
+            } else {
+                String query = "SELECT ProductId, ProductName, product.CategoryId, CategoryName, Price, IsAvailable, Image FROM product inner join category on product.CategoryId = category.CategoryId where "+type+" LIKE ?";
                 PreparedStatement statement = conn.prepareStatement(query);
-                statement.setString(1, txt);
+                statement.setString(1, "%" + txt + "%");
                 ResultSet res = statement.executeQuery();
                 while (res.next()) {
                     products.add(new Product(res.getString("ProductId"),
