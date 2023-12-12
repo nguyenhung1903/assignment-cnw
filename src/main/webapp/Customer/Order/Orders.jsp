@@ -1,6 +1,7 @@
 <%@ page import="lazyfood.demo.models.Bean.Order" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -230,11 +231,10 @@
                         <tbody id="orderBox">
                         <%
                             ArrayList<Order> orders = (ArrayList<Order>) request.getAttribute("orders");
-                            Gson gson = new Gson();
-                            String jsonOrders = gson.toJson(orders);
-
                             for (int i = 0; i < orders.size(); i++) {
                                 String isdelivered = null;
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                                String formattedDateTime = orders.get(i).getTime().format(formatter);
                                 if (orders.get(i).isDelivered()) {
                                     isdelivered = "Delivered";
                                 } else {
@@ -245,7 +245,7 @@
                                 <td> <%= orders.get(i).getOrderId() %> </td>
                                 <td> <%= orders.get(i).getAddress() %> </td>
                                 <td> <%= orders.get(i).getPhoneNumber() %> </td>
-                                <td> <%= orders.get(i).getTime() %> </td>
+                                <td> <%= formattedDateTime %> </td>
                                 <td> <%= isdelivered %> </td>
                                 <td><a href="#viewDetailModal" class="detail" data-toggle="modal" data-product-id=<%=orders.get(i).getOrderId()%> ><i
                                 class="material-icons" data-toggle="tooltip" title="Detail ">&#xe8f4;</i></a></td>

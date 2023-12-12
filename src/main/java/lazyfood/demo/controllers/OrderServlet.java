@@ -3,6 +3,7 @@ package lazyfood.demo.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -19,7 +20,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lazyfood.demo.models.BO.OrderBO;
 import lazyfood.demo.models.BO.UserBO;
 import lazyfood.demo.models.Bean.Order;
+import lazyfood.demo.models.Bean.ProductInOrder;
 import lazyfood.demo.models.Bean.User;
+import lazyfood.demo.utils.general;
 
 @WebServlet(urlPatterns = {
         "/Order",
@@ -160,6 +163,7 @@ public class OrderServlet extends HttpServlet {
         try {
             req.getRequestDispatcher("/Customer/Order/Orders.jsp").forward(req, resp);
         } catch (Exception e) {
+            e.printStackTrace();
             NotFoundErrorPage(req, resp);
         }
     }
@@ -216,19 +220,34 @@ public class OrderServlet extends HttpServlet {
     }
 
     private void CreateItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Get the request's BufferedReader to read the JSON data
+
         BufferedReader reader = request.getReader();
-
-        // Use Gson to parse the JSON data into a JsonObject
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+        JsonObject orderInfor = gson.fromJson(reader, JsonObject.class);
 
-        JsonArray cart = jsonObject.getAsJsonArray("cart");
+        String customerId = request.getSession().getAttribute("userid").toString();
+        String phone = orderInfor.get("phone").getAsString();
+        String addr = orderInfor.get("addr").getAsString();
+        LocalDateTime time = LocalDateTime.now();
+        String orderId = "ord" + general.generateId("ord", time.toString());
+
+        ArrayList<ProductInOrder> products = new ArrayList<ProductInOrder>();
+
+        JsonArray cart = orderInfor.getAsJsonArray("cart");
         for (JsonElement item : cart) {
             JsonObject obj = item.getAsJsonObject();
             JsonPrimitive id = obj.getAsJsonPrimitive("ProductId");
             JsonPrimitive quantity = obj.getAsJsonPrimitive("Quantity");
-            System.out.println(id.getAsString() + " " + quantity.getAsString());
+            products.add(new ProductInOrder(id.getAsString(), quantity.getAsInt()));
+        }
+
+        Order order = new Order(orderId, customerId, products, time, phone, addr);
+
+        try {
+            orderBO.createOrder(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            InternalServerErrorPage(request, response);
         }
     }
 

@@ -1,19 +1,21 @@
 package lazyfood.demo.models.Bean;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Order {
     private String OrderId;
     private String CustomerId;
     private String CustomerName;
     private ArrayList<ProductInOrder> Products;
-    private Date Time;
+    private LocalDateTime Time;
     private String PhoneNumber;
     private String Address;
     private boolean IsDelivered;
 
-    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products, Date time,
+    // from database to application
+    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products,
+            LocalDateTime time,
             String phoneNumber,
             String address, boolean isDelivered) {
         OrderId = orderId;
@@ -26,26 +28,30 @@ public class Order {
         IsDelivered = isDelivered;
     }
 
-    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products, Date time,
-            String phoneNumber,
+    // public Order(String orderId, String customerId, String customerName,
+    // ArrayList<ProductInOrder> products, Date time,
+    // String phoneNumber,
+    // String address) {
+    // OrderId = orderId;
+    // CustomerId = customerId;
+    // CustomerName = customerName;
+    // Products = products;
+    // Time = time;
+    // PhoneNumber = phoneNumber;
+    // Address = address;
+    // IsDelivered = false;
+    // }
+
+    // from application to database
+    public Order(String orderId, String customerId, ArrayList<ProductInOrder> products, LocalDateTime time,
+            String phonenumber,
             String address) {
         OrderId = orderId;
         CustomerId = customerId;
-        CustomerName = customerName;
         Products = products;
         Time = time;
-        PhoneNumber = phoneNumber;
+        PhoneNumber = phonenumber;
         Address = address;
-        IsDelivered = false;
-    }
-
-    public Order(String orderId, String customerId, String customerName, ArrayList<ProductInOrder> products,
-            Date time) {
-        OrderId = orderId;
-        CustomerId = customerId;
-        CustomerName = customerName;
-        Products = products;
-        Time = time;
         IsDelivered = false;
     }
 
@@ -81,11 +87,11 @@ public class Order {
         Products = products;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return Time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         Time = time;
     }
 

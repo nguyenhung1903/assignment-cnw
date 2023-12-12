@@ -25,6 +25,10 @@ public class OrderBO {
         return orderDAO.getOrderById(orderId);
     }
 
+    public void createOrder(Order order) throws SQLException {
+        orderDAO.createOrder(order);
+    }
+
     public void setOrderDelivered(String orderId, boolean state) throws SQLException {
         orderDAO.setDeliveredState(orderId, state);
     }

@@ -28,9 +28,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getServletPath();
 
-        if (action.equals("/login")) {
-            showLoginForm(request, response);
-        } else if (action.equals("/logout")) {
+        if (action.equals("/logout")) {
             request.getSession().invalidate();
             response.sendRedirect("index.jsp");
         }
@@ -70,12 +68,13 @@ public class LoginServlet extends HttpServlet {
 
     }
 
-    private void showLoginForm(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            request.getRequestDispatcher("/Authentication/login.jsp").forward(request, response);
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        }
-    }
+    // private void showLoginForm(HttpServletRequest request, HttpServletResponse
+    // response) {
+    // try {
+    // request.getRequestDispatcher("/Authentication/login.jsp").forward(request,
+    // response);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // }
 }
