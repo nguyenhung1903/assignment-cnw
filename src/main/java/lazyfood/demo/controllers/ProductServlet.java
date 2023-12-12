@@ -27,7 +27,8 @@ import lazyfood.demo.utils.general;
         "/Admin/Product/create",
         "/Admin/Product/update",
         "/Admin/Product/delete",
-        "/api/Product/getAllProduct"
+        "/api/Product/getAllProduct",
+        "/api/Product/getProductById",
 })
 public class ProductServlet extends HttpServlet {
 
@@ -51,6 +52,9 @@ public class ProductServlet extends HttpServlet {
             case "/api/Product/getAllProduct":
                 getAllProduct(req, resp);
                 break;
+                case "/api/Product/getProductById":
+                    getProductById(req, resp);
+                    break;
             case "/Admin/Product":
                 if (role == null)
                     UnauthorizedErrorPage(req, resp);
@@ -119,6 +123,27 @@ public class ProductServlet extends HttpServlet {
             resp.setContentType("application/json");
             PrintWriter out = resp.getWriter();
             out.print(new Gson().toJson(products));
+            out.flush();
+        } catch (SQLException | IOException e) {
+            resp.setContentType("application/json");
+            try {
+                PrintWriter out = resp.getWriter();
+                out.print("{\"error\": \"500\"}");
+                out.flush();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    private void getProductById(HttpServletRequest req, HttpServletResponse resp) {
+        String id = req.getParameter("id");
+        Product product = null;
+        try {
+            product = productBO.getProductById(id);
+            resp.setContentType("application/json");
+            PrintWriter out = resp.getWriter();
+            out.print(new Gson().toJson(product));
             out.flush();
         } catch (SQLException | IOException e) {
             resp.setContentType("application/json");

@@ -46,23 +46,22 @@
             <% } else {  %>
                 <button class="btn" onclick="window.location = './Order';">Your Orders</button>
            <% } %>
+            <span onclick="handleCart()" class="opacity"
+                  style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
+              <i class="fa fa-cart-shopping"></i>
+              <span id="cartCount" style="position: absolute; border-radius: 100%; background: red; color: white; top: 0;
+                              right: 4px;
+                              font-size: 12px;
+                              width: 20px;
+                              height: 20px;
+                              display: none;
+                              place-items: center;">0</span>
+            </span>
           <%
             }else{ %>
             <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
             <button class="btn" onclick="handlePopupSignUp()">SIGN UP</button>
           <% } %>
-
-          <span onclick="handleCart()" class="opacity"
-            style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
-            <i class="fa fa-cart-shopping"></i>
-            <span id="cartCount" style="position: absolute; border-radius: 100%; background: red; color: white; top: 0;
-                            right: 4px;
-                            font-size: 12px;
-                            width: 20px;
-                            height: 20px;
-                            display: none;
-                            place-items: center;">0</span>
-          </span>
         </section>
       </nav>
     </header>
@@ -197,7 +196,7 @@
         <span class="validate-text pass-letter"><i class="fa-regular fa-circle-check"></i> Password must
           contains letters
           and numbers</span>
-        <input name="phone" class="login-inp" type="text" placeholder="Phone">
+        <input type="tel" name="phone" id="phone" class="login-inp"  pattern="0[0-9]{9}" placeholder="Phone">
         <input name="addr" class="login-inp" type="text" placeholder="Address">
         <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">SIGN
           UP</button>
@@ -219,18 +218,13 @@
     </section>
 
     <section id="confirm-modal" class="modal-popup confirm-popup">
-      <button class="form-close-btn" onclick="handleClosePopup('cart')"><i class="fa-solid fa-xmark"
-          style="font-size: 16px; color: white;"></i></button>
-      <form action="" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
-        <h1 style="line-height: 150%;">Order Information</h1>
-        <input name="phone" class="login-inp" type="text" placeholder="Phone">
-        <input name="addr" class="login-inp" type="text" placeholder="Address" value="Current Address">
-        <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">Confirm</button>
-      </form>
+
     </section>
   </body>
+
   <script src="./assets/js/login.js"></script>
   <script src="./assets/js/product.js"></script>
   <script src="./assets/js/general.js"></script>
   <script src="./assets/js/cart.js"></script>
+  <script src="./assets/js/confirm.js"></script>
   </html>

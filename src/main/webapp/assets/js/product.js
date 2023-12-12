@@ -1,6 +1,19 @@
 getAllProducts = async () => {
-  return await $.ajax({
+  return $.ajax({
     url: "./api/Product/getAllProduct",
+    type: "GET",
+    success: function (data) {
+      return data;
+    },
+    error: function (error) {
+      console.log(error);
+    },
+  });
+};
+
+getProductById = async (id) => {
+  return $.ajax({
+    url: "./api/Product/getProductById?id=" + id,
     type: "GET",
     success: function (data) {
       return data;
@@ -15,6 +28,18 @@ getAllProducts().then((res) => {
   renderProduct(res);
 });
 
+const loadCartCount = ()=>{
+  if (JSON.parse(localStorage.getItem("cart")).length > 0) {
+    document.querySelector("#cartCount").style.display = "grid";
+  } else {
+    document.querySelector("#cartCount").style.display = "none";
+  }
+  document.querySelector("#cartCount").textContent = JSON.parse(
+      localStorage.getItem("cart")
+  ).length;
+}
+
+// ================================================
 const renderProduct = (data) => {
   const productBox = document.querySelector("#products");
   productBox.innerHTML = "";
@@ -94,139 +119,6 @@ const renderProduct = (data) => {
     productBox.appendChild(div);
   });
 
-  if (
-    JSON.parse(localStorage.getItem("cart")) &&
-    JSON.parse(localStorage.getItem("cart")).length >= 1
-  ) {
-    document.querySelector("#cartCount").style.display = "grid";
-    document.querySelector("#cartCount").textContent = JSON.parse(
-      localStorage.getItem("cart")
-    ).length;
-  } else if (
-    JSON.parse(localStorage.getItem("cart")) &&
-    JSON.parse(localStorage.getItem("cart")).length === 0
-  ) {
-    document.querySelector("#cartCount").style.display = "none";
-  }
-
-  const cartItems = localStorage.getItem("cart");
-  if (cartItems) {
-    // Parse cart items from JSON to JavaScript objects
-
-    const parsedCartItems = JSON.parse(cartItems);
-
-    // Get the section element by ID
-
-    const section = document.getElementById("cartSection");
-    section.innerHTML = "";
-    const total = document.getElementById("cartTotal");
-    // Iterate over the cart items and create HTML elements
-
-    parsedCartItems.forEach((item) => {
-      // Create the main div element
-
-      const div = document.createElement("div");
-
-      div.style.display = "flex";
-
-      div.style.alignItems = "center";
-
-      div.style.width = "100%";
-
-      div.style.justifyContent = "space-between";
-
-      // Create the inner section element
-
-      const innerSection = document.createElement("section");
-
-      innerSection.style.display = "flex";
-
-      innerSection.style.alignItems = "center";
-
-      innerSection.style.gap = "8px";
-
-      // Create the image element
-
-      const img = document.createElement("img");
-
-      img.src = "./assets/imgs/background.jpg";
-
-      img.alt = "";
-
-      img.style.width = "30%";
-
-      img.style.height = "50%";
-      img.style.borderRadius = "8px";
-
-      // Create the details section element
-
-      const detailsSection = document.createElement("section");
-
-      detailsSection.style.display = "flex";
-
-      detailsSection.style.flexDirection = "column";
-
-      detailsSection.style.alignItems = "self-start";
-
-      detailsSection.style.gap = "16px";
-
-      // Create the name span element
-
-      const nameSpan = document.createElement("span");
-
-      nameSpan.textContent = "Name : " + item.name;
-
-      // Create the quantity span element
-
-      const quantitySpan = document.createElement("span");
-
-      quantitySpan.textContent = item.quantity + " x " + item.price;
-
-      // Append the name and quantity elements to the details section
-
-      detailsSection.appendChild(nameSpan);
-
-      detailsSection.appendChild(quantitySpan);
-
-      // Append the image element and details section to the inner section
-
-      innerSection.appendChild(img);
-
-      innerSection.appendChild(detailsSection);
-      const iconBox = document.createElement("button");
-      iconBox.style.padding = "16px";
-      iconBox.style.display = "grid";
-      iconBox.style.placeItems = "center";
-      iconBox.style.borderRadius = "8px";
-      iconBox.style.border = "1px solid gray";
-      iconBox.style.cursor = "pointer";
-      iconBox.style.backgroundColor = "white";
-      iconBox.classList.add("cart-delete-btn");
-      const icon = document.createElement("i");
-      icon.classList.add("fa-regular");
-      icon.classList.add("fa-trash-can");
-      icon.classList.add(item.ProductId);
-      icon.style.cursor = "pointer";
-      iconBox.addEventListener("click", () => {
-        const newCart = parsedCartItems.filter(
-          (obj) => obj.ProductId !== item.ProductId
-        );
-        console.log(newCart);
-        localStorage.setItem("cart", JSON.stringify(newCart));
-        renderProduct(data);
-      });
-
-      // Append the inner section to the main div
-      iconBox.appendChild(icon);
-      div.appendChild(innerSection);
-      div.appendChild(iconBox);
-
-      // Append the main div to the section
-
-      section.appendChild(div);
-    });
-  }
-
   var itemCards = document.getElementsByClassName("item-card");
 
   Array.from(itemCards).forEach(function (card) {
@@ -254,41 +146,30 @@ const renderProduct = (data) => {
   addToCartButtons.forEach(function (button) {
     button.addEventListener("click", function () {
       var itemCard = button.closest(".grid-item");
-      var itemPrice = itemCard.querySelector("span").textContent;
-      var itemName = itemCard.querySelector("span:first-child").textContent;
       var itemId = itemCard.querySelector("#item-id").textContent;
       var itemQuantity = parseInt(itemCard.querySelector(".value").textContent);
-      var itemImage = itemCard.querySelector("img").src;
 
       var itemData = {
-        id: itemId,
-        name: itemName,
-        price: itemPrice,
-        quantity: itemQuantity,
-        image: itemImage,
+        ProductId: itemId,
+        Quantity: itemQuantity,
       };
 
       var existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
 
       var existingItemIndex = existingCartData.findIndex(function (item) {
-        return item.name === itemName;
+        return item.ProductId === itemId;
       });
 
+      // ##########################################
+
       if (existingItemIndex !== -1) {
-        existingCartData[existingItemIndex].quantity += itemQuantity;
+        existingCartData[existingItemIndex].Quantity += itemQuantity;
       } else {
         existingCartData.push(itemData);
       }
       localStorage.setItem("cart", JSON.stringify(existingCartData));
-      if (JSON.parse(localStorage.getItem("cart")).length > 0) {
-        document.querySelector("#cartCount").style.display = "grid";
-      } else {
-        document.querySelector("#cartCount").style.display = "none";
-      }
-      document.querySelector("#cartCount").textContent = JSON.parse(
-        localStorage.getItem("cart")
-      ).length;
-      renderProduct(data);
+      loadCartCount();
+      loadCart();
     });
   });
 };
