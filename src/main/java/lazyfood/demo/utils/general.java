@@ -1,16 +1,21 @@
 package lazyfood.demo.utils;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.sql.rowset.serial.SerialBlob;
+
 public class general {
     public static String convertBlobToBase64(Blob bytes) {
 
-        if (bytes == null) return "";
+        if (bytes == null)
+            return "";
 
         InputStream inputStream = null;
         try {
@@ -32,9 +37,10 @@ public class general {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
             return "";
-//            throw new RuntimeException(e);
+            // throw new RuntimeException(e);
         }
     }
+
     public static String fileToBlob(InputStream file) {
         try {
             byte[] bArray = new byte[1000];
@@ -74,6 +80,28 @@ public class general {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static String generateId(String namespace, String name) {
+        // Assuming namespace and name are both strings
+        UUID namespaceUUID = UUID.nameUUIDFromBytes(namespace.getBytes());
+
+        // Generate UUID v3 based on namespace and name
+        UUID userId = UUID.nameUUIDFromBytes(generateBytes(namespaceUUID, name));
+
+        // Convert UUID to string and remove hyphens
+        return userId.toString().replaceAll("-", "");
+    }
+
+    private static byte[] generateBytes(UUID namespace, String name) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(namespace.toString().getBytes());
+            md.update(name.getBytes());
+            return md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generating UUID v3", e);
         }
     }
 }
