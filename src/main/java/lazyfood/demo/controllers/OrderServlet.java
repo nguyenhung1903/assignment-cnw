@@ -55,6 +55,7 @@ public class OrderServlet extends HttpServlet {
                     ShowDetailsOrder(req, resp, id);
                 else
                     ShowAllMyOrders(req, resp);
+                break;
             case "/Admin/Order/view":
                 if (role == null)
                     UnauthorizedErrorPage(req, resp);
