@@ -19,7 +19,7 @@
 <body>
 <table>
     <tr>
-        <td style="width:15%;  vertical-align: top;">
+        <td style="width:100px;  vertical-align: top;">
             <nav
                     style="position: fixed; display: flex; flex-direction: column; align-items: self-start; justify-content: space-between; padding: 48px 16px 16px 16px; background: white; min-height: 100vh;">
                 <section style="width: 100%;">
@@ -46,15 +46,22 @@
                 </section>
             </nav>
         </td>
-        <td style="width:85%; vertical-align: top;">
-            <div id="content" style="margin-left:100px;">
-                <h1 style="text-align: center; width: 100%;">ADMIN Homepage</h1>
+        <td style="width:auto; vertical-align: top;">
+            <div id="content" style="margin-left:200px;">
+                <h1 style="text-align: center; width: 100%;margin-left:100px;">ADMIN Homepage</h1>
             </div>
         </td>
     </tr>
 </table>
 </body>
 <script>
+
+    <%
+        String role = (String)session.getAttribute("role");
+        if ( role == null || !role.equals("admin")) {%>
+            alert("You are not admin, please login again");
+            window.location.href = "..";
+    <%}%>
     function getUrlVars() {
         var vars = [], hash;
         var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');

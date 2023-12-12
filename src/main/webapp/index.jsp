@@ -37,10 +37,15 @@
           <%
             String userId = (String) session.getAttribute("userid");
             String username = (String) session.getAttribute("username");
+            String role = (String) session.getAttribute("role");
             if(userId != null){
           %>
             <button class="btn" onclick="window.location = './logout'">( <%= username %>) LOGOUT</button>
-            <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
+            <% if (role.equals("admin")) {%>
+              <button class="btn" onclick="window.location = './Admin';">Dashboard</button>
+            <% } else {  %>
+                <button class="btn" onclick="window.location = './Customer/Order/OrderDetail.html';">Your Orders</button>
+           <% } %>
           <%
             }else{ %>
             <button class="btn" onclick="handlePopupLogin()">LOGIN</button>
