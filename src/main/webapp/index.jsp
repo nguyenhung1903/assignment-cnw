@@ -172,7 +172,7 @@
     <section id="signup-modal" class="modal-popup signup-popup">
       <button class="form-close-btn" onclick="handleClosePopup()"><i class="fa-solid fa-xmark"
           style="font-size: 16px; color: white;"></i></button>
-      <form action="" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
+      <form method="post" action="${pageContext.request.contextPath}/register" style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
         <h1 style="line-height: 150%;">SIGN UP</h1>
         <input name="name" class="login-inp" type="text" placeholder="Fullname">
         <input name="usernameS" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
