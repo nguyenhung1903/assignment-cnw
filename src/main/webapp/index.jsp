@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
   <!DOCTYPE html>
   <html>
 
@@ -44,7 +45,7 @@
             <% if (role.equals("admin")) {%>
               <button class="btn" onclick="window.location = './Admin';">Dashboard</button>
             <% } else {  %>
-                <button class="btn" onclick="window.location = './Order';">Your Orders</button>
+                <button class="btn" onclick="window.location = './Order';">My orders</button>
            <% } %>
             <span onclick="handleCart()" class="opacity"
                   style="padding: 12px; border: 2px solid white; background: transparent; cursor: pointer; border-radius: 8px; position: relative;">
