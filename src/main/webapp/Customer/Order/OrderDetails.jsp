@@ -53,18 +53,26 @@ String isdelivered = null;
                 </thead>
                 <tbody id="productBox">
                 <% ArrayList<ProductInOrder> products = order.getProducts();
+                double total = 0;
                     for (ProductInOrder product : products) {
                         Product p = product.getProduct();
+                        total += p.getPrice() * product.getQuantity();
                         %>
                     <tr>
                         <td><%= p.getProductId()%></td>
                         <td><%= p.getProductName()%></td>
                         <td><%= product.getQuantity()%></td>
-                        <td><%= p.getPrice() * product.getQuantity()%></td>
+                        <td>$<%= String.format("%.2f",p.getPrice() * product.getQuantity())%></td>
                     </tr>
                     <%
                     }
                 %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>$<%= String.format("%.2f",total) %></td>
+                </tr>
                 </tbody>
             </table>
         </div>

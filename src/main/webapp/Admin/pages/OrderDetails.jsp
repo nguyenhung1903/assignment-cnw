@@ -60,18 +60,26 @@ String isdelivered = null;
                 </thead>
                 <tbody id="productBox">
                 <% ArrayList<ProductInOrder> products = order.getProducts();
+                double total = 0.0;
                     for (ProductInOrder product : products) {
                         Product p = product.getProduct();
+                        total += p.getPrice() * product.getQuantity();
                 %>
                 <tr>
                     <td><%= p.getProductId()%></td>
                     <td><%= p.getProductName()%></td>
                     <td><%= product.getQuantity()%></td>
-                    <td><%= p.getPrice() * product.getQuantity()%></td>
+                    <td>$<%= String.format("%.2f",p.getPrice() * product.getQuantity())%></td>
                 </tr>
                 <%
                     }
                 %>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><b>$<%= String.format("%.2f",total) %></b></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -80,6 +88,8 @@ String isdelivered = null;
     <div class="modal-footer">
         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
         <!-- Write logic check status here -->
-        <input type="submit" class="btn btn-success" value="Delivery Completed">
+        <% if (!order.isDelivered()) {
+            out.println("<input type=\"submit\" class=\"btn btn-success\" value=\"Delivery Completed\">");
+        } %>
     </div>
 </form>
