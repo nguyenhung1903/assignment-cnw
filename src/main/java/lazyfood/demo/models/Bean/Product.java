@@ -29,8 +29,6 @@ public class Product {
         this.Image = image;
     }
 
-
-
     public String getProductId() {
         return ProductId;
     }

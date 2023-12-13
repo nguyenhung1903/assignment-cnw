@@ -260,7 +260,7 @@
                                                     <%= products.get(i).getCategoryName()%>
                                                 </td>
                                                 <td>
-                                                    <%= products.get(i).getPrice()%>
+                                                    $<%= String.format("%.2f", products.get(i).getPrice()) %>
                                                 </td>
                                                 <td>
                                                     <a href="#editProductModal" class="edit" data-toggle="modal"

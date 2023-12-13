@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <label>Price</label>
-            <input type="number" value="<%= product.getPrice()%>" class="form-control" name="PriceE" required>
+            <input type="number" step="0.01" value="<%= product.getPrice()%>" class="form-control" name="PriceE" required>
         </div>
 
         <div class="form-group">
