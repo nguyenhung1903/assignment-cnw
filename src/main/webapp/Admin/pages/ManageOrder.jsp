@@ -196,7 +196,7 @@
 
 <body>
     <section
-        style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px">
+        style="display: flex; flex-direction: column; gap: 32px; align-items: self-start; flex: 6 1 0; padding : 32px 16px; width:100%">
         <section
             style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: center; gap: 16px; width: 100%; padding : 16px; border-radius: 24px;"
             class="shadow-xl">
@@ -214,7 +214,7 @@
         </section>
     </section>
 
-    <div class="container">
+    <div class="container" style="width:100%">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
@@ -225,14 +225,10 @@
                 </div>
             </div>
             <table class="table table-striped table-hover">
-                <colgroup>
-                    <col span="1" style="width: 15%;">
-                    <col span="1" style="width: 15%;">
-                </colgroup>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Customer's ID</th>
+                        <th style="max-width:200px; word-wrap: break-word">ID</th>
+                        <th style="max-width:200px; word-wrap: break-word">Customer's ID</th>
                         <th>Customer's Name</th>
                         <th>Address</th>
                         <th>Phone</th>
@@ -254,8 +250,8 @@
                                 }
                             %>
                         <tr>
-                            <td> <%= orders.get(i).getOrderId() %> </td>
-                            <td> <%= orders.get(i).getCustomerId() %> </td>
+                            <td style="max-width:200px; word-wrap: break-word"> <%= orders.get(i).getOrderId() %> </td>
+                            <td style="max-width:200px; word-wrap: break-word"> <%= orders.get(i).getCustomerId() %> </td>
                             <td> <%= orders.get(i).getCustomerName() %> </td>
                             <td> <%= orders.get(i).getAddress() %> </td>
                             <td> <%= orders.get(i).getPhoneNumber() %> </td>

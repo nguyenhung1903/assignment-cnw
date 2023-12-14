@@ -90,7 +90,7 @@
                 });
             });
         } else if (q["page"] == "order") {
-            $(document).prop('title', 'View Customer\'s Order');
+            $(document).prop('title', 'Manage Customer\'s Order');
             $(".list-item").removeClass("active");
             $("#order").addClass("active");
             $("#content").load("./Order");
