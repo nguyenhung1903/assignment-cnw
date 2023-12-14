@@ -71,7 +71,7 @@ String isdelivered = null;
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>$<%= String.format("%.2f",total) %></td>
+                    <td><b>$<%= String.format("%.2f",total) %></b></td>
                 </tr>
                 </tbody>
             </table>
