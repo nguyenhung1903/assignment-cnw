@@ -10,6 +10,6 @@ Steps to deploy server on Tomcat server
 2) Configure server
    - Install Tomcat 10
    - Add Tomcat Server to IDE, deployment: artifact -> demo:war exploded
-
+3) Configure database connection: change config in _configs/dbConfig.java_
 
 **After that, just run/restart server to deploy project on Tomcat Server**
