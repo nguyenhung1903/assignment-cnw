@@ -38,8 +38,7 @@
                         </li>
                         <li class="list-item">
                             <a href="?page=order" id="order"
-                               style="text-decoration: none;  width: 100%; height: 100%; display: block;">View
-                                Customer's Order</a>
+                               style="text-decoration: none;  width: 100%; height: 100%; display: block;">'Manage Customer's Order</a>
                         </li>
                     </ul>
                 </section>

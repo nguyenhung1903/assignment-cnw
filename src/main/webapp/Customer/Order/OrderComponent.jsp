@@ -42,6 +42,9 @@ $("#btnOrderConfirm").click(function (e) {
         data: JSON.stringify(jsonOrder),
         success:function(result){
             alert("Order successfully");
+            localStorage.removeItem("cart");
+            handleClosePopup('cart');
+            window.location = ".";
         }
     });
 })

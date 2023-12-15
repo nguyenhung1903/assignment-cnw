@@ -247,7 +247,7 @@
                                 <td> <%= orders.get(i).getAddress() %> </td>
                                 <td> <%= orders.get(i).getPhoneNumber() %> </td>
                                 <td> <%= formattedDateTime %> </td>
-                                <td> <%= isdelivered %> </td>
+                                <td <% if (isdelivered.equals("Delivered"))  out.print("style=\"color:green\""); %> > <%= isdelivered %> </td>
                                 <td><a href="#viewDetailModal" class="detail" data-toggle="modal" data-product-id=<%=orders.get(i).getOrderId()%> ><i
                                 class="material-icons" data-toggle="tooltip" title="Detail ">&#xe8f4;</i></a></td>
                             </tr>

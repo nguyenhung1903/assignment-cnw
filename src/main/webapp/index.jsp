@@ -171,6 +171,7 @@
       <form method="post" action="${pageContext.request.contextPath}/login"
         style="display: flex; flex-direction: column; gap: 8px; width: 80%; align-items: self-start;">
         <h1 style="line-height: 150%;">LOGIN</h1>
+        <p id="loginStatus" style="color:red"></p>
         <input name="username" class="login-inp" type="text" placeholder="Username" onchange="validateLogin()">
         <input name="password" class="login-inp" type="password" placeholder="Password" onchange="validateLogin()">
         <button class="btn" style="background: #f29a51; border: none; width: 100%; margin-top: 16px;">LOGIN</button>
@@ -222,10 +223,21 @@
 
     </section>
   </body>
-
   <script src="./assets/js/login.js"></script>
   <script src="./assets/js/product.js"></script>
   <script src="./assets/js/general.js"></script>
   <script src="./assets/js/cart.js"></script>
   <script src="./assets/js/confirm.js"></script>
+
+
+  <%
+    String error = (String) request.getAttribute("error");
+    if(error != null){
+  %>
+  <script>
+    $("#loginStatus").text("<%= error %>");
+    handlePopupLogin();
+  </script>
+  <%}%>
+
   </html>

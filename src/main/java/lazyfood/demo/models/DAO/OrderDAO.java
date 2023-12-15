@@ -17,7 +17,7 @@ public class OrderDAO {
 
         ArrayList<Order> orders = new ArrayList<>();
         try (Connection conn = DBConnector.getConnection()) {
-            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId";
+            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId Order BY `order`.Time DESC";
             Statement statement = conn.createStatement();
             ResultSet res = statement.executeQuery(query);
             while (res.next()) {
@@ -41,7 +41,7 @@ public class OrderDAO {
 
         ArrayList<Order> orders = new ArrayList<>();
         try (Connection conn = DBConnector.getConnection()) {
-            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId WHERE UserId = ?";
+            String query = "SELECT `order`.OrderId, `order`.CustomerId, user.FullName, `order`.PhoneNumber, `order`.Address, `order`.Time, `order`.IsDelivered FROM `order` INNER JOIN user on `order`.CustomerId = user.UserId WHERE UserId = ? Order BY `order`.Time DESC";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, userId);
             ResultSet res = statement.executeQuery();

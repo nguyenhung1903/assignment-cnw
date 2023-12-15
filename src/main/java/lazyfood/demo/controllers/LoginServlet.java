@@ -71,10 +71,12 @@ public class LoginServlet extends HttpServlet {
                     session.setAttribute("role", user.getRole());
                     response.sendRedirect("index.jsp");
                 } else {
-                    response.sendRedirect("index.jsp");
+                    request.setAttribute("error", "Username or password is incorrect");
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
                 }
             } else {
-                response.sendRedirect("index.jsp");
+                request.setAttribute("error", "Username or password is incorrect");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
         }
 
