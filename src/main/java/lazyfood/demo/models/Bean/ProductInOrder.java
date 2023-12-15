@@ -26,6 +26,7 @@ public class ProductInOrder {
 
     public void setProduct(Product _Product) {
         this._Product = _Product;
+        this.ProductId = _Product.getProductId();
     }
 
     public int getQuantity() {
