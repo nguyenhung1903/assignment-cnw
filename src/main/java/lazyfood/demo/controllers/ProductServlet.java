@@ -52,9 +52,9 @@ public class ProductServlet extends HttpServlet {
             case "/api/Product/getAllProduct":
                 getAllProduct(req, resp);
                 break;
-                case "/api/Product/getProductById":
-                    getProductById(req, resp);
-                    break;
+            case "/api/Product/getProductById":
+                getProductById(req, resp);
+                break;
             case "/Admin/Product":
                 if (role == null)
                     UnauthorizedErrorPage(req, resp);
@@ -167,7 +167,7 @@ public class ProductServlet extends HttpServlet {
             if (keyword == null && searchClass == null)
                 products = productBO.getAllProducts();
             else {
-                if ( searchClass == null || searchClass.isEmpty())
+                if (searchClass == null || searchClass.isEmpty())
                     searchClass = "ProductName";
                 products = productBO.filterProduct(keyword, searchClass);
             }
@@ -341,8 +341,7 @@ public class ProductServlet extends HttpServlet {
                     req.setAttribute("error", e.getMessage());
                     req.setAttribute("product", product);
                     try {
-                        // TODO: Replace path
-                        req.getRequestDispatcher("/Admin/pages/ManageProduct.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/Admin/Product/edit.jsp").forward(req, resp);
                     } catch (Exception e1) {
                         NotFoundErrorPage(req, resp);
                     }
@@ -377,7 +376,7 @@ public class ProductServlet extends HttpServlet {
                 productBO.deleteProduct(id);
             } catch (SQLException e) {
                 req.setAttribute("error", e.getMessage());
-                req.getRequestDispatcher("/Admin/Product/testindex.jsp"); // TODO: Replace path
+                req.getRequestDispatcher("/Admin/pages/ManageProduct.jsp");
             }
         }
 
