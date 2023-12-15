@@ -29,18 +29,7 @@ public class LoginServlet extends HttpServlet {
         String action = request.getServletPath();
         System.out.println(action);
 
-        if (action.equals("/login")) {
-            HttpSession session = request.getSession();
-            if (session.getAttribute("userid") != null) {
-                response.sendRedirect("index.jsp");
-            } else {
-                try {
-                    request.getRequestDispatcher("/Authentication/login.jsp").forward(request, response);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if (action.equals("/logout")) {
+        if (action.equals("/logout")) {
             request.getSession().invalidate();
             response.sendRedirect("index.jsp");
         }
