@@ -47,10 +47,10 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
-  `OrderId` varchar(45) NOT NULL,
-  `CustomerId` varchar(45) NOT NULL,
+  `OrderId` varchar(100) NOT NULL,
+  `CustomerId` varchar(100) NOT NULL,
   `PhoneNumber` varchar(45) DEFAULT NULL,
-  `Address` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `Address` varchar(200) DEFAULT NULL,
   `Time` datetime DEFAULT NULL,
   `IsDelivered` tinyint DEFAULT NULL,
   PRIMARY KEY (`OrderId`),
@@ -65,7 +65,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES ('ord38bf46a30bb03f06ba970d9e02e33cdd','ctm6d82a39212133819b98a930f299925a6','0973734250','Liên Chiểu, Đà Nẵng','2023-12-13 00:32:19',0),('ord518deb6a6d6d3161acef77a6a707f077','ctm8736b9c6805e31f595780184057729f9','0981237465','Nguyễn Lương Bằng, Hòa Khánh Bắc','2023-12-13 00:31:20',0),('orda932abbd06c23d7386716b9ed9f36fd2','ctm1dc877e9b86f33fb82d2b7b788a3a857','0967346297','Đà Nẵng','2023-12-13 00:33:17',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','ctm6d82a39212133819b98a930f299925a6','0973734250','Hải Châu, Đà Nẵng','2023-12-13 15:34:01',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','ctm1dc877e9b86f33fb82d2b7b788a3a857','0967346297','Đà Nẵng','2023-12-13 00:33:03',0);
+INSERT INTO `order` VALUES ('ord38bf46a30bb03f06ba970d9e02e33cdd','ctm6d82a39212133819b98a930f299925a6','0973734250','Liên Chiểu, Đà Nẵng','2023-12-13 00:32:19',0),('ord6591f18fffe03baeb76e9f1f61e47274','ctmc83c3b76b9eb33c391f6ae098464467a','0912743228','Nguyễn Lương Bằng, Hòa Khánh Bắc','2023-12-15 12:29:25',1),('ord6636f6ba90623f929ff03179a8bc215f','ctm6d82a39212133819b98a930f299925a6','0973734250','122 Nguyễn Tất Thành, Thanh Khê','2023-12-15 13:06:40',0),('orda01626f8fd1a3c1ba614f6fd8016cae0','ctm6d82a39212133819b98a930f299925a6','0973734250','112 Hoàng Diệu, Hải Châu, Đà Nẵng','2023-12-15 13:05:12',1),('orda932abbd06c23d7386716b9ed9f36fd2','ctm1dc877e9b86f33fb82d2b7b788a3a857','0967346297','Đà Nẵng','2023-12-13 00:33:17',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','ctm6d82a39212133819b98a930f299925a6','0973734250','Hải Châu, Đà Nẵng','2023-12-13 15:34:01',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','ctm1dc877e9b86f33fb82d2b7b788a3a857','0967346297','Đà Nẵng','2023-12-13 00:33:03',0);
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,13 +77,13 @@ DROP TABLE IF EXISTS `orderproduct`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orderproduct` (
-  `OrderId` varchar(45) NOT NULL,
-  `ProductId` varchar(45) NOT NULL,
+  `OrderId` varchar(100) NOT NULL,
+  `ProductId` varchar(100) NOT NULL,
   `Quantity` int NOT NULL,
   PRIMARY KEY (`OrderId`,`ProductId`),
-  KEY `product_idx` (`ProductId`),
-  CONSTRAINT `inorder` FOREIGN KEY (`OrderId`) REFERENCES `order` (`OrderId`),
-  CONSTRAINT `withproduct` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`)
+  KEY `productid_idx` (`ProductId`),
+  CONSTRAINT `orderid` FOREIGN KEY (`OrderId`) REFERENCES `order` (`OrderId`),
+  CONSTRAINT `productid` FOREIGN KEY (`ProductId`) REFERENCES `product` (`ProductId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -93,7 +93,7 @@ CREATE TABLE `orderproduct` (
 
 LOCK TABLES `orderproduct` WRITE;
 /*!40000 ALTER TABLE `orderproduct` DISABLE KEYS */;
-INSERT INTO `orderproduct` VALUES ('ord38bf46a30bb03f06ba970d9e02e33cdd','prd002',1),('ord38bf46a30bb03f06ba970d9e02e33cdd','prd005',1),('ord38bf46a30bb03f06ba970d9e02e33cdd','prd107',2),('ord518deb6a6d6d3161acef77a6a707f077','prd004',1),('ord518deb6a6d6d3161acef77a6a707f077','prd007',2),('ord518deb6a6d6d3161acef77a6a707f077','prd101',1),('ord518deb6a6d6d3161acef77a6a707f077','prd102',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd007',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd008',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd101',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd102',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','prd003',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','prd106',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','prd003',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','prd004',1);
+INSERT INTO `orderproduct` VALUES ('ord38bf46a30bb03f06ba970d9e02e33cdd','prd002',1),('ord38bf46a30bb03f06ba970d9e02e33cdd','prd005',1),('ord38bf46a30bb03f06ba970d9e02e33cdd','prd107',2),('ord6591f18fffe03baeb76e9f1f61e47274','prd002',2),('ord6636f6ba90623f929ff03179a8bc215f','prd01',3),('ord6636f6ba90623f929ff03179a8bc215f','prd102',2),('ord6636f6ba90623f929ff03179a8bc215f','prd103',4),('orda01626f8fd1a3c1ba614f6fd8016cae0','prd003',1),('orda01626f8fd1a3c1ba614f6fd8016cae0','prd01',1),('orda01626f8fd1a3c1ba614f6fd8016cae0','prd101',1),('orda01626f8fd1a3c1ba614f6fd8016cae0','prd102',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd007',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd008',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd101',1),('orda932abbd06c23d7386716b9ed9f36fd2','prd102',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','prd003',1),('ordecd5b82b3e6735ed94b3420ca638cdbd','prd106',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','prd003',1),('ordf5bb032e1d4339e09125ed2ef5fc2a42','prd004',1);
 /*!40000 ALTER TABLE `orderproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `UserId` varchar(45) NOT NULL,
+  `UserId` varchar(100) NOT NULL,
   `Username` varchar(45) NOT NULL,
   `Password` varchar(45) NOT NULL,
   `Role` varchar(45) NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('adm1','admin1','admin','admin','Admin 1',NULL,NULL),('adm2','admin2','admin','admin','Admin 2',NULL,NULL),('ctm1dc877e9b86f33fb82d2b7b788a3a857','nguyentrithuong','nguyentrithuong','customer','Nguyễn Trí Hoài Thương','0967346297','Đà Nẵng'),('ctm6d82a39212133819b98a930f299925a6','lightx113','lightx113','customer','Nguyễn Cửu Nhật Quang','0973734250','Liên Chiểu, Đà Nẵng'),('ctm8736b9c6805e31f595780184057729f9','anhung1903','anhung1903','customer','Nguyễn An Hưng','0981237465','Nguyễn Lương Bằng, Hòa Khánh Bắc');
+INSERT INTO `user` VALUES ('adm1','admin1','admin','admin','Admin 1',NULL,NULL),('adm2','admin2','admin','admin','Admin 2',NULL,NULL),('ctm1dc877e9b86f33fb82d2b7b788a3a857','nguyentrithuong','nguyentrithuong','customer','Nguyễn Trí Hoài Thương','0967346297','Đà Nẵng'),('ctm6d82a39212133819b98a930f299925a6','lightx113','lightx113','customer','Nguyễn Cửu Nhật Quang','0973734250','Liên Chiểu, Đà Nẵng'),('ctmc83c3b76b9eb33c391f6ae098464467a','nguyenanhung','nguyenanhung','customer','Nguyễn An Hưng','0912743228','Nguyễn Lương Bằng, Hòa Khánh Bắc');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -169,4 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-15  9:47:21
+-- Dump completed on 2023-12-15 14:47:41
